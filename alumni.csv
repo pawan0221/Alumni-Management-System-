@@ -1,0 +1,201 @@
+name,batch,department,company,location
+Diya Yadav,2013,Computer Science,Flipkart,Pune
+Diya Mehta,2011,Civil,Tech Mahindra,Bengaluru
+Navya Nair,2022,Electronics,Wipro,Bengaluru
+Ananya Chopra,2019,Electronics,Google,Pune
+Vihaan Verma,2010,Information Technology,Cognizant,Hyderabad
+Reyansh Mishra,2016,Computer Science,Tech Mahindra,Delhi
+Ishaan Ghosh,2014,Electrical,Amazon,Delhi
+Pari Iyer,2016,Civil,TCS,Delhi
+Vihaan Yadav,2015,Information Technology,Amazon,Mumbai
+Krishna Khan,2018,Information Technology,Google,Bengaluru
+Aadhya Nair,2019,Computer Science,L&T,Bengaluru
+Rohan Nair,2013,Civil,Flipkart,Indore
+Saanvi Reddy,2013,Mechanical,Adani,Hyderabad
+Diya Yadav,2021,Computer Science,Infosys,Bengaluru
+Anika Reddy,2012,Electronics,Cognizant,Delhi
+Rohan Patel,2011,Computer Science,Flipkart,Bhopal
+Pari Patel,2018,Mechanical,Flipkart,Hyderabad
+Diya Chopra,2016,Civil,Adani,Hyderabad
+Ishaan Gupta,2014,Information Technology,TCS,Hyderabad
+Vihaan Nair,2016,Information Technology,L&T,Pune
+Vihaan Mehta,2022,Information Technology,Amazon,Hyderabad
+Ishaan Verma,2023,Mechanical,Cognizant,Bengaluru
+Ananya Bose,2020,Information Technology,TCS,Pune
+Vihaan Patel,2014,Electrical,Wipro,Nagpur
+Krishna Verma,2022,Mechanical,Wipro,Delhi
+Aarav Singh,2013,Electronics,TCS,Bengaluru
+Diya Verma,2018,Mechanical,Infosys,Hyderabad
+Ishaan Verma,2017,Mechanical,Adani,Indore
+Kiara Chopra,2016,Information Technology,Infosys,Mumbai
+Kiara Malhotra,2015,Electronics,Tech Mahindra,Delhi
+Krishna Saxena,2022,Mechanical,Cognizant,Chennai
+Vivaan Ghosh,2021,Civil,Accenture,Indore
+Rohan Nair,2014,Computer Science,Adani,Indore
+Diya Sharma,2016,Computer Science,Accenture,Indore
+Ananya Khan,2017,Information Technology,TCS,Indore
+Ira Yadav,2020,Mechanical,Accenture,Delhi
+Sai Mishra,2016,Computer Science,TCS,Nagpur
+Reyansh Malhotra,2014,Electronics,Adani,Delhi
+Arjun Mishra,2019,Civil,Tech Mahindra,Pune
+Diya Iyer,2020,Electronics,Wipro,Mumbai
+Krishna Gupta,2013,Information Technology,TCS,Hyderabad
+Reyansh Nair,2018,Computer Science,Google,Bengaluru
+Krishna Das,2014,Electrical,HCL,Chennai
+Vihaan Chopra,2014,Computer Science,L&T,Bhopal
+Myra Mishra,2020,Electronics,Google,Nagpur
+Vihaan Sharma,2011,Mechanical,Microsoft,Indore
+Reyansh Reddy,2017,Electronics,L&T,Delhi
+Anika Verma,2017,Electronics,Wipro,Chennai
+Diya Khan,2016,Computer Science,Accenture,Bhopal
+Krishna Yadav,2021,Electrical,HCL,Bhopal
+Saanvi Singh,2010,Civil,Cognizant,Mumbai
+Saanvi Kapoor,2017,Civil,HCL,Chennai
+Krishna Patel,2017,Computer Science,Tech Mahindra,Pune
+Aditya Singh,2020,Information Technology,Accenture,Bengaluru
+Sai Mishra,2021,Civil,Microsoft,Hyderabad
+Ira Nair,2011,Electronics,Accenture,Delhi
+Rohan Ghosh,2017,Mechanical,Google,Hyderabad
+Ishaan Ghosh,2017,Electrical,Tech Mahindra,Indore
+Krishna Yadav,2022,Civil,Accenture,Bhopal
+Diya Jain,2012,Mechanical,TCS,Pune
+Arjun Ghosh,2010,Information Technology,Flipkart,Hyderabad
+Vivaan Bose,2020,Civil,Flipkart,Bhopal
+Navya Patel,2015,Computer Science,Tech Mahindra,Pune
+Aarav Reddy,2018,Computer Science,Cognizant,Nagpur
+Anika Yadav,2010,Mechanical,Google,Mumbai
+Ananya Mehta,2019,Electronics,L&T,Delhi
+Aditya Gupta,2021,Civil,Adani,Chennai
+Ananya Patel,2014,Computer Science,Accenture,Indore
+Myra Mishra,2021,Civil,TCS,Mumbai
+Vihaan Iyer,2011,Mechanical,Accenture,Indore
+Saanvi Mishra,2022,Civil,Adani,Nagpur
+Reyansh Mehta,2020,Electrical,Infosys,Bhopal
+Kiara Patel,2011,Information Technology,Tech Mahindra,Hyderabad
+Ananya Sharma,2015,Computer Science,Wipro,Bhopal
+Rohan Malhotra,2010,Mechanical,Accenture,Bhopal
+Sai Saxena,2017,Information Technology,Amazon,Nagpur
+Navya Mishra,2021,Civil,TCS,Hyderabad
+Anika Mehta,2016,Computer Science,Adani,Bhopal
+Aadhya Patel,2018,Information Technology,Accenture,Delhi
+Sai Nair,2023,Mechanical,Microsoft,Hyderabad
+Ishaan Saxena,2020,Information Technology,Cognizant,Nagpur
+Saanvi Saxena,2015,Mechanical,TCS,Pune
+Anika Bose,2018,Electronics,L&T,Hyderabad
+Myra Singh,2014,Electronics,Wipro,Nagpur
+Navya Bose,2023,Mechanical,Microsoft,Indore
+Diya Saxena,2012,Civil,Accenture,Chennai
+Rohan Reddy,2015,Electronics,Wipro,Chennai
+Reyansh Mehta,2019,Electrical,Adani,Bhopal
+Kiara Verma,2012,Information Technology,Infosys,Bengaluru
+Navya Jain,2018,Civil,Google,Chennai
+Arjun Gupta,2010,Electrical,Tech Mahindra,Chennai
+Navya Yadav,2020,Computer Science,L&T,Pune
+Vivaan Patel,2017,Information Technology,Cognizant,Indore
+Diya Verma,2013,Electrical,Adani,Pune
+Kiara Bose,2010,Mechanical,Amazon,Hyderabad
+Sai Malhotra,2017,Electronics,HCL,Bengaluru
+Arjun Sharma,2015,Electrical,Google,Bhopal
+Diya Kapoor,2016,Information Technology,Wipro,Nagpur
+Diya Yadav,2018,Computer Science,Amazon,Nagpur
+Aarav Jain,2023,Information Technology,Infosys,Mumbai
+Aditya Yadav,2010,Civil,L&T,Bengaluru
+Anika Kapoor,2017,Mechanical,Wipro,Nagpur
+Saanvi Jain,2015,Electrical,Infosys,Pune
+Diya Gupta,2019,Civil,Accenture,Nagpur
+Ishaan Chopra,2012,Electronics,L&T,Delhi
+Ananya Nair,2016,Mechanical,Accenture,Delhi
+Anika Ghosh,2014,Electronics,Wipro,Bengaluru
+Reyansh Khan,2015,Computer Science,Wipro,Bhopal
+Anika Patel,2021,Electrical,Cognizant,Delhi
+Ira Malhotra,2011,Mechanical,TCS,Chennai
+Ira Ghosh,2014,Electrical,Wipro,Nagpur
+Aarav Saxena,2014,Electrical,Adani,Mumbai
+Aadhya Singh,2012,Mechanical,Microsoft,Chennai
+Ira Yadav,2018,Electrical,Flipkart,Bhopal
+Krishna Bose,2016,Mechanical,Tech Mahindra,Mumbai
+Pari Sharma,2015,Mechanical,L&T,Nagpur
+Vihaan Singh,2010,Civil,Microsoft,Bhopal
+Aadhya Malhotra,2023,Electronics,HCL,Nagpur
+Sai Das,2018,Civil,Accenture,Pune
+Aadhya Malhotra,2019,Electrical,HCL,Pune
+Ananya Mehta,2014,Mechanical,Google,Hyderabad
+Sai Nair,2011,Electronics,Tech Mahindra,Pune
+Myra Nair,2013,Mechanical,Accenture,Delhi
+Ishaan Reddy,2010,Information Technology,Microsoft,Bengaluru
+Sai Verma,2021,Electronics,L&T,Indore
+Pari Gupta,2017,Civil,TCS,Nagpur
+Ira Mehta,2019,Mechanical,Wipro,Mumbai
+Navya Saxena,2010,Computer Science,Flipkart,Mumbai
+Sai Patel,2015,Computer Science,Cognizant,Mumbai
+Saanvi Khan,2011,Information Technology,Google,Indore
+Anika Bose,2022,Civil,Amazon,Hyderabad
+Diya Ghosh,2016,Civil,Wipro,Nagpur
+Rohan Nair,2016,Electrical,Microsoft,Chennai
+Ishaan Saxena,2019,Civil,Accenture,Mumbai
+Kiara Mishra,2012,Civil,HCL,Mumbai
+Anika Gupta,2011,Electronics,Cognizant,Bhopal
+Kiara Verma,2023,Mechanical,Cognizant,Chennai
+Sai Yadav,2012,Computer Science,L&T,Nagpur
+Kiara Das,2021,Information Technology,Microsoft,Pune
+Rohan Ghosh,2017,Information Technology,Flipkart,Pune
+Aadhya Yadav,2018,Electrical,Adani,Chennai
+Aadhya Nair,2010,Information Technology,Flipkart,Mumbai
+Ishaan Patel,2020,Mechanical,Wipro,Nagpur
+Ira Das,2023,Electrical,L&T,Nagpur
+Pari Iyer,2011,Electrical,Infosys,Bhopal
+Navya Verma,2019,Civil,Flipkart,Hyderabad
+Rohan Patel,2021,Electronics,Adani,Mumbai
+Rohan Das,2010,Civil,L&T,Indore
+Krishna Patel,2012,Mechanical,L&T,Indore
+Ira Bose,2016,Information Technology,HCL,Nagpur
+Vivaan Chopra,2023,Electronics,Amazon,Mumbai
+Diya Saxena,2013,Electronics,Accenture,Bengaluru
+Ananya Yadav,2016,Electrical,HCL,Indore
+Kiara Saxena,2021,Civil,Flipkart,Delhi
+Vivaan Bose,2018,Electronics,Infosys,Indore
+Aditya Mehta,2017,Information Technology,Cognizant,Delhi
+Kiara Ghosh,2015,Electronics,TCS,Delhi
+Navya Ghosh,2011,Civil,HCL,Hyderabad
+Sai Yadav,2014,Mechanical,HCL,Bengaluru
+Reyansh Mishra,2016,Computer Science,Adani,Delhi
+Arjun Gupta,2017,Electrical,Wipro,Delhi
+Diya Jain,2021,Mechanical,Accenture,Bengaluru
+Saanvi Verma,2014,Civil,L&T,Bhopal
+Diya Yadav,2010,Information Technology,Tech Mahindra,Bhopal
+Pari Jain,2023,Information Technology,L&T,Hyderabad
+Vivaan Verma,2019,Electrical,Google,Bhopal
+Vivaan Gupta,2012,Electronics,Accenture,Hyderabad
+Anika Sharma,2015,Mechanical,Accenture,Hyderabad
+Rohan Mehta,2019,Information Technology,TCS,Bengaluru
+Ishaan Bose,2019,Electronics,Google,Nagpur
+Ishaan Sharma,2012,Civil,Wipro,Indore
+Anika Nair,2018,Electrical,Flipkart,Mumbai
+Vivaan Malhotra,2021,Electronics,Flipkart,Pune
+Vivaan Reddy,2014,Electronics,Cognizant,Hyderabad
+Reyansh Jain,2020,Civil,Adani,Bengaluru
+Aditya Jain,2023,Civil,L&T,Pune
+Vivaan Das,2016,Information Technology,HCL,Bengaluru
+Vivaan Iyer,2021,Electrical,HCL,Pune
+Kiara Singh,2023,Electronics,Flipkart,Chennai
+Aditya Bose,2018,Civil,Cognizant,Indore
+Krishna Khan,2011,Mechanical,Infosys,Hyderabad
+Kiara Das,2022,Information Technology,Google,Bengaluru
+Rohan Yadav,2013,Electrical,Tech Mahindra,Delhi
+Navya Patel,2016,Mechanical,Amazon,Bengaluru
+Reyansh Nair,2017,Civil,Adani,Bengaluru
+Sai Patel,2018,Information Technology,HCL,Nagpur
+Sai Patel,2023,Computer Science,Accenture,Delhi
+Arjun Saxena,2017,Electrical,Infosys,Bhopal
+Vihaan Bose,2012,Information Technology,TCS,Indore
+Kiara Nair,2012,Computer Science,Amazon,Mumbai
+Diya Yadav,2017,Mechanical,Microsoft,Pune
+Ananya Iyer,2018,Mechanical,Accenture,Delhi
+Reyansh Mishra,2015,Information Technology,Adani,Delhi
+Kiara Verma,2012,Mechanical,Flipkart,Pune
+Saanvi Ghosh,2022,Electronics,Microsoft,Delhi
+Ira Chopra,2022,Civil,Microsoft,Bhopal
+Krishna Mehta,2010,Electronics,Microsoft,Mumbai
+Sai Patel,2017,Civil,Amazon,Pune
+Navya Das,2020,Electronics,Microsoft,Chennai
+Vivaan Sharma,2022,Information Technology,Google,Bengaluru
