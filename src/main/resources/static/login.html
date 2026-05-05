@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alumni Management System – Admin Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0b1120;
+    --navy-mid: #111a2e;
+    --gold: #c9962a;
+    --gold-light: #e8b84b;
+    --cream: #f5f0e8;
+    --text-muted: #8a94a8;
+    --border: rgba(201,150,42,0.22);
+    --glass: rgba(255,255,255,0.04);
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--cream);
+    overflow: hidden;
+  }
+
+  .bg {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 20% 10%, #1a2a4a 0%, transparent 60%),
+                radial-gradient(ellipse 60% 80% at 80% 90%, #1c1608 0%, transparent 60%),
+                var(--navy);
+  }
+  .bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg, transparent, transparent 60px,
+      rgba(201,150,42,0.03) 60px, rgba(201,150,42,0.03) 61px
+    ),
+    repeating-linear-gradient(
+      90deg, transparent, transparent 60px,
+      rgba(201,150,42,0.03) 60px, rgba(201,150,42,0.03) 61px
+    );
+  }
+  .orb {
+    position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18;
+    animation: drift 8s ease-in-out infinite alternate;
+  }
+  .orb1 { width: 400px; height: 400px; background: #c9962a; top: -100px; right: -100px; animation-delay: 0s; }
+  .orb2 { width: 300px; height: 300px; background: #1e40af; bottom: -80px; left: -60px; animation-delay: -4s; }
+  @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(30px, 20px) scale(1.1); } }
+
+  .container {
+    position: relative; z-index: 1;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .left {
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 60px;
+    border-right: 1px solid var(--border);
+    animation: fadeSlideLeft 0.8s ease both;
+  }
+  @keyframes fadeSlideLeft { from { opacity:0; transform: translateX(-30px); } to { opacity:1; transform: translateX(0); } }
+
+  .crest {
+    width: 64px; height: 64px; margin-bottom: 32px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 0 40px rgba(201,150,42,0.3);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 40px rgba(201,150,42,0.3); } 50% { box-shadow: 0 0 60px rgba(201,150,42,0.5); } }
+
+  .tagline {
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); font-family: 'DM Sans', sans-serif; font-weight: 500;
+    margin-bottom: 16px;
+  }
+  .headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3vw, 42px);
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--cream);
+  }
+  .headline span { color: var(--gold-light); font-style: italic; }
+  .desc {
+    font-size: 14px; color: var(--text-muted); line-height: 1.7;
+    max-width: 380px; margin-bottom: 48px;
+  }
+  .stats { display: flex; gap: 40px; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 700;
+    color: var(--gold-light); line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px; color: var(--text-muted); margin-top: 4px;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  .right {
+    display: flex; align-items: center; justify-content: center;
+    padding: 48px;
+    animation: fadeSlideRight 0.8s ease 0.2s both;
+  }
+  @keyframes fadeSlideRight { from { opacity:0; transform: translateX(30px); } to { opacity:1; transform: translateX(0); } }
+
+  .card {
+    width: 100%; max-width: 400px;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 44px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; margin-bottom: 6px;
+  }
+  .card-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 36px; }
+
+  .field { margin-bottom: 20px; }
+  label {
+    display: block; font-size: 11px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 8px; font-weight: 500;
+  }
+  .input-wrap { position: relative; }
+  .input-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    font-size: 16px; pointer-events: none; opacity: 0.4;
+    transition: opacity 0.2s;
+  }
+  input {
+    width: 100%;
+    padding: 13px 14px 13px 42px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.25s;
+  }
+  input::placeholder { color: rgba(255,255,255,0.2); }
+  input:focus {
+    border-color: var(--gold);
+    background: rgba(201,150,42,0.06);
+    box-shadow: 0 0 0 3px rgba(201,150,42,0.12);
+  }
+  .input-wrap:focus-within .input-icon { opacity: 0.9; }
+
+  .row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 28px;
+  }
+  .remember { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); cursor: pointer; }
+  .remember input[type=checkbox] { width: auto; padding: 0; background: none; accent-color: var(--gold); }
+  .forgot { font-size: 12px; color: var(--gold); text-decoration: none; transition: color 0.2s; }
+  .forgot:hover { color: var(--gold-light); }
+
+  .btn {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: none; border-radius: 10px;
+    color: #1a0e00;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600; letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .btn::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,150,42,0.4); }
+  .btn:hover::after { opacity: 1; }
+  .btn:active { transform: translateY(0); }
+  .btn.loading { pointer-events: none; opacity: 0.7; }
+
+  .divider {
+    text-align: center; margin: 24px 0;
+    font-size: 11px; color: rgba(255,255,255,0.15);
+    position: relative;
+  }
+  .divider::before, .divider::after {
+    content: ''; position: absolute;
+    top: 50%; width: 42%; height: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+  .divider::before { left: 0; }
+  .divider::after { right: 0; }
+
+  .footer-note { text-align: center; font-size: 12px; color: var(--text-muted); }
+  .footer-note a { color: var(--gold); text-decoration: none; }
+
+  .toast {
+    position: fixed; top: 24px; right: 24px;
+    padding: 14px 20px; border-radius: 10px;
+    font-size: 13px; font-family: 'DM Sans', sans-serif;
+    font-weight: 500; z-index: 999;
+    transform: translateY(-10px); opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.error { background: #3d1515; border: 1px solid #7a2020; color: #f88; }
+  .toast.success { background: #0d2e1a; border: 1px solid #1a6a3a; color: #6effa8; }
+
+  @media (max-width: 700px) {
+    .container { grid-template-columns: 1fr; }
+    .left { display: none; }
+    .right { padding: 24px; }
+    .card { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="container">
+  <div class="left">
+    <div class="crest">🎓</div>
+    <div class="tagline">Alumni Management System</div>
+    <h1 class="headline">
+      Connecting<br>
+      <span>Alumni,</span><br>
+      Empowering Growth
+    </h1>
+    <p class="desc">
+      Manage alumni records, events, donations, and engagement — all from one powerful administrative portal.
+    </p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">12K+</div>
+        <div class="stat-label">Alumni</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">340+</div>
+        <div class="stat-label">Events</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">98%</div>
+        <div class="stat-label">Uptime</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="card">
+      <div class="card-title">Admin Sign In</div>
+      <div class="card-sub">Enter your credentials to access the portal</div>
+
+      <div class="field">
+        <label for="username">Username</label>
+        <div class="input-wrap">
+          <span class="input-icon">👤</span>
+          <input id="username" type="text" placeholder="admin@university.edu" autocomplete="username">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input id="password" type="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="remember">
+          <input type="checkbox"> Remember me
+        </label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <button class="btn" id="loginBtn" onclick="login()">Sign In to Portal</button>
+
+      <div class="divider">secured access</div>
+      <div class="footer-note">
+        Need access? <a href="#">Contact IT Support</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+async function login() {
+
+  const btn = document.getElementById("loginBtn");
+  btn.classList.add("loading");
+
+  const user = {
+    username: document.getElementById("username").value,
+    password: document.getElementById("password").value
+  };
+
+  try {
+    const response = await fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    });
+
+    const result = await response.json();
+
+    if (result) {
+
+      // Save login info
+      localStorage.setItem("role", result.role);
+      localStorage.setItem("username", result.username);
+
+      showToast(`Welcome ${result.role}`, "success");
+
+      setTimeout(() => {
+        window.location.href = "Prototype.html";
+      }, 1000);
+
+    } else {
+      showToast("Invalid credentials", "error");
+      btn.classList.remove("loading");
+    }
+
+  } catch (error) {
+    console.error(error);
+    showToast("Server error. Check backend.", "error");
+    btn.classList.remove("loading");
+  }
+}
+
+// Press Enter to login
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    login();
+  }
+});
+</script>
+</body>
+</html>
