@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AlumVerse - Your College Network</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
     <style>
@@ -13,64 +12,84 @@
 
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        color: #333;
+        line-height: 1.6; color: #333;
         background: linear-gradient(135deg, #242738 0%, #16575f 100%);
         min-height: 100vh;
       }
 
       .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
+      /* ── HEADER ── */
       header {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        padding: 1rem 0;
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 1000;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+        padding: 1rem 0; position: fixed; width: 100%; top: 0;
+        z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.2);
       }
-
       nav { display: flex; justify-content: space-between; align-items: center; }
-
       .logo { font-size: 1.5rem; font-weight: bold; color: white; display: flex; align-items: center; }
+      .nav-links { display: flex; list-style: none; gap: 1.4rem; }
+      .nav-links a { color: white; text-decoration: none; transition: opacity 0.3s; font-size: 0.92rem; }
+      .nav-links a:hover { opacity: 0.75; }
 
-      .nav-links { display: flex; list-style: none; gap: 1.5rem; }
-      .nav-links a { color: white; text-decoration: none; transition: opacity 0.3s; font-size: 0.95rem; }
-      .nav-links a:hover { opacity: 0.8; }
+      /* ── HAMBURGER ── */
+      .hamburger {
+        display: none; flex-direction: column; gap: 5px;
+        cursor: pointer; padding: 5px; background: none; border: none;
+      }
+      .hamburger span { display: block; width: 25px; height: 2px; background: white; border-radius: 2px; transition: all 0.3s ease; }
+      .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .hamburger.open span:nth-child(2) { opacity: 0; }
+      .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+      .mobile-nav {
+        display: none; position: fixed; top: 70px; left: 0; right: 0;
+        background: rgba(22,30,55,0.98); backdrop-filter: blur(20px);
+        z-index: 999; padding: 1.5rem 2rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        flex-direction: column; gap: 0;
+      }
+      .mobile-nav.open { display: flex; }
+      .mobile-nav li { list-style: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .mobile-nav li:last-child { border-bottom: none; }
+      .mobile-nav a { color: white; text-decoration: none; display: block; padding: 0.9rem 0; font-size: 1rem; transition: opacity 0.2s; }
+      .mobile-nav a:hover { opacity: 0.7; }
+
+      /* ── TOAST ── */
+      #toastContainer { position: fixed; top: 80px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 0.6rem; }
+      .toast {
+        padding: 0.85rem 1.3rem; border-radius: 10px;
+        font-size: 0.9rem; font-weight: 500; color: white;
+        display: flex; align-items: center; gap: 0.6rem;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        animation: slideIn 0.3s ease, fadeOut 0.4s ease 2.6s forwards;
+        max-width: 320px;
+      }
+      .toast.success { background: linear-gradient(135deg, #1a6a3a, #27ae60); }
+      .toast.error   { background: linear-gradient(135deg, #7a1a1a, #c0392b); }
+      .toast.info    { background: linear-gradient(135deg, #1a3a6a, #2980b9); }
+      .toast.warning { background: linear-gradient(135deg, #6a4a1a, #e67e22); }
+      @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+      @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(120%); } }
+
+      /* ── MAIN ── */
       main { margin-top: 80px; padding: 2rem 0; }
-
       .hero { text-align: center; color: white; padding: 4rem 0; }
       .hero h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
       .hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
 
-      .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem; margin: 3rem 0;
-      }
-
+      .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 3rem 0; }
       .feature-card {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
+        background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
         border-radius: 15px; padding: 2rem; color: white;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        cursor: pointer;
+        border: 1px solid rgba(255,255,255,0.2); cursor: pointer;
       }
       .feature-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
-      .feature-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; }
+      .feature-card h3 { font-size: 1.4rem; margin-bottom: 1rem; }
       .feature-card p { opacity: 0.9; line-height: 1.6; }
 
-      /* MODAL */
-      .modal {
-        display: none; position: fixed; z-index: 2000;
-        left: 0; top: 0; width: 100%; height: 100%;
-        background-color: rgba(0,0,0,0.7);
-        backdrop-filter: blur(5px);
-      }
+      /* ── MODAL ── */
+      .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
       .modal-content {
         background: linear-gradient(135deg, #222537 0%, #134d54 100%);
         margin: 4% auto; padding: 2rem; border-radius: 15px;
@@ -78,116 +97,86 @@
         overflow-y: auto; color: white; position: relative;
         box-shadow: 0 25px 50px rgba(0,0,0,0.3);
       }
-      .close {
-        position: absolute; top: 1rem; right: 1.5rem;
-        font-size: 2rem; cursor: pointer; color: white; opacity: 0.8;
-      }
+      .close { position: absolute; top: 1rem; right: 1.5rem; font-size: 2rem; cursor: pointer; color: white; opacity: 0.8; }
       .close:hover { opacity: 1; }
 
-      .search-section { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 1.5rem; margin: 2rem 0; }
+      .search-section { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; }
       .search-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
       .form-group { display: flex; flex-direction: column; }
-      .form-group label { margin-bottom: 0.5rem; font-weight: 500; }
-      .form-group input, .form-group select, .form-group textarea {
-        padding: 0.75rem; border: none; border-radius: 8px;
-        background: rgba(255,255,255,0.9); color: #333; font-family: inherit; font-size: 0.95rem;
-      }
+      .form-group label { margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
+      .form-group input, .form-group select, .form-group textarea { padding: 0.75rem; border: none; border-radius: 8px; background: rgba(255,255,255,0.9); color: #333; font-family: inherit; font-size: 0.92rem; }
       textarea { resize: vertical; min-height: 80px; }
 
-      .btn {
-        background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-        color: white; padding: 0.75rem 1.5rem; border: none;
-        border-radius: 8px; cursor: pointer; font-size: 1rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
+      .btn { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-size: 0.95rem; transition: transform 0.2s ease, box-shadow 0.2s ease; }
       .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-      .btn-danger { background: linear-gradient(45deg, #c0392b, #e74c3c); }
+      .btn-danger  { background: linear-gradient(45deg, #c0392b, #e74c3c); }
+      .btn-success { background: linear-gradient(45deg, #1a6a3a, #27ae60); }
       .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.82rem; }
+      .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.4); color: white; }
+      .btn-outline:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
 
-      .alumni-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+      .alumni-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
       .alumni-card { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 1.5rem; text-align: center; transition: transform 0.3s ease; }
-      .alumni-card:hover { transform: scale(1.05); }
-      .alumni-photo {
-        width: 80px; height: 80px; border-radius: 50%;
-        background: linear-gradient(45deg, #ff9a9e, #fecfef);
-        margin: 0 auto 1rem; display: flex; align-items: center;
-        justify-content: center; font-size: 1.5rem; font-weight: bold; color: white;
-      }
+      .alumni-card:hover { transform: scale(1.04); }
+      .alumni-photo { width: 75px; height: 75px; border-radius: 50%; background: linear-gradient(45deg, #ff9a9e, #fecfef); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: bold; color: white; }
 
       .news-item { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; border-left: 4px solid #963a3a; }
       .achievement-card { background: linear-gradient(45deg, #ffd89b, #19547b); border-radius: 15px; padding: 2rem; margin-bottom: 1.5rem; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
 
-      .engagement-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+      .engagement-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 2rem 0; }
       .stat-card { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 1.5rem; text-align: center; }
       .stat-number { font-size: 2rem; font-weight: bold; color: #ff6b6b; }
 
       .event-card { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center; }
       .event-date { background: #843f3f; color: white; padding: 1rem; border-radius: 10px; text-align: center; min-width: 80px; }
-
       .material-symbols-outlined { font-variation-settings: "FILL" 0,"wght" 300,"GRAD" 0 "opsz" 24; font-size: 50px; }
 
-      /* ── JOB BOARD ── */
-      .job-card {
-        background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
-        border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;
-        display: grid; grid-template-columns: 1fr auto; gap: 1rem;
-        transition: transform 0.2s, box-shadow 0.2s;
-      }
-      .job-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.2); }
+      /* JOB BOARD */
+      .job-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; transition: transform 0.2s; }
+      .job-card:hover { transform: translateY(-3px); }
       .job-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
       .job-company { color: #ff6b6b; font-weight: 500; margin-bottom: 0.4rem; }
-      .job-meta { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.83rem; opacity: 0.75; margin-bottom: 0.6rem; }
+      .job-meta { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.82rem; opacity: 0.75; margin-bottom: 0.6rem; }
       .job-desc { font-size: 0.88rem; opacity: 0.85; line-height: 1.5; margin-bottom: 0.6rem; }
       .job-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
       .tag { background: rgba(255,255,255,0.15); padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; }
       .job-actions { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; }
       .type-badge { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-      .type-full  { background: rgba(46,213,115,0.25); color: #55efc4; }
-      .type-intern{ background: rgba(253,203,110,0.25); color: #fdcb6e; }
-      .type-remote{ background: rgba(116,185,255,0.25); color: #74b9ff; }
-      .type-contract{ background: rgba(162,155,254,0.25); color: #a29bfe; }
+      .type-full { background: rgba(46,213,115,0.25); color: #55efc4; }
+      .type-intern { background: rgba(253,203,110,0.25); color: #fdcb6e; }
+      .type-remote { background: rgba(116,185,255,0.25); color: #74b9ff; }
+      .type-contract { background: rgba(162,155,254,0.25); color: #a29bfe; }
       .filters { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; align-items: center; }
-      .filters input, .filters select {
-        padding: 0.55rem 1rem; border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 8px; background: rgba(255,255,255,0.12); color: white; font-size: 0.88rem;
-      }
+      .filters input, .filters select { padding: 0.55rem 1rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.12); color: white; font-size: 0.88rem; }
       .filters input::placeholder { color: rgba(255,255,255,0.55); }
       .filters select option { background: #242738; }
 
-      /* ── ADMIN DASHBOARD ── */
-      .dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+      /* DASHBOARD */
+      .dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
       .dash-stat { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 1.2rem; text-align: center; }
       .dash-stat .big { font-size: 2rem; font-weight: bold; color: #ff6b6b; }
-      .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.2rem; margin-bottom: 1.5rem; }
+      .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; margin-bottom: 1.5rem; }
       .chart-card { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 1.2rem; }
       .chart-card h4 { margin-bottom: 0.8rem; font-size: 0.95rem; opacity: 0.85; }
       canvas { max-height: 220px; }
-      .table-wrap { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 1.2rem; overflow-x: auto; }
+      .table-wrap { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 1.2rem; overflow-x: auto; margin-bottom: 1.5rem; }
       table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
       th, td { padding: 0.65rem 0.9rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
       th { opacity: 0.65; font-weight: 600; }
       tr:last-child td { border-bottom: none; }
       tr:hover td { background: rgba(255,255,255,0.04); }
 
-      /* ── PROFILE ── */
-      .profile-header-box {
-        background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 14px; padding: 1.8rem; display: flex;
-        gap: 1.5rem; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap;
-      }
-      .avatar-big {
-        width: 90px; height: 90px; border-radius: 50%;
-        background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 2rem; font-weight: bold; color: white; flex-shrink: 0;
-        box-shadow: 0 6px 20px rgba(255,107,107,0.4);
-      }
+      /* REGISTRATION */
+      .reg-badge { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+      .reg-pending  { background: rgba(253,203,110,0.25); color: #fdcb6e; }
+      .reg-approved { background: rgba(46,213,115,0.25); color: #55efc4; }
+      .reg-rejected { background: rgba(255,107,107,0.25); color: #ff6b6b; }
+
+      /* PROFILE */
+      .profile-header-box { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 14px; padding: 1.8rem; display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+      .avatar-big { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(45deg, #ff6b6b, #ee5a24); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: white; flex-shrink: 0; box-shadow: 0 6px 20px rgba(255,107,107,0.4); }
       .profile-meta-info h2 { font-size: 1.6rem; margin-bottom: 0.2rem; }
-      .role-pill {
-        display: inline-block; background: rgba(255,107,107,0.2);
-        color: #ff6b6b; padding: 0.15rem 0.7rem; border-radius: 20px;
-        font-size: 0.75rem; font-weight: 600; margin-bottom: 0.6rem;
-      }
+      .role-pill { display: inline-block; background: rgba(255,107,107,0.2); color: #ff6b6b; padding: 0.15rem 0.7rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.6rem; }
       .pmeta { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.88rem; opacity: 0.78; }
       .info-card { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem; }
       .info-card h4 { margin-bottom: 0.8rem; font-size: 0.95rem; }
@@ -200,22 +189,26 @@
 
       @media (max-width: 768px) {
         .nav-links { display: none; }
+        .hamburger { display: flex; }
         .hero h1 { font-size: 2rem; }
         .modal-content { margin: 8% auto; width: 95%; padding: 1.2rem; }
         .search-form { grid-template-columns: 1fr; }
         .job-card { grid-template-columns: 1fr; }
-        .job-actions { flex-direction: row; }
+        .job-actions { flex-direction: row; flex-wrap: wrap; }
+        .profile-header-box { flex-direction: column; text-align: center; }
+        .pmeta { justify-content: center; }
       }
     </style>
   </head>
   <body>
+
+    <div id="toastContainer"></div>
+
     <header>
       <nav class="container">
-        <div class="logo">
-          <span class="material-symbols-outlined">school</span>AlumVerse
-        </div>
+        <div class="logo"><span class="material-symbols-outlined">school</span>AlumVerse</div>
         <ul class="nav-links">
-          <li><a href="#" onclick="openModal('discover')">Discover Alumni</a></li>
+          <li><a href="#" onclick="openModal('discover')">Discover</a></li>
           <li><a href="#" onclick="openModal('news')">News & Events</a></li>
           <li><a href="#" onclick="openModal('achievements')">Achievements</a></li>
           <li><a href="#" onclick="openModal('engagement')">Engagement</a></li>
@@ -223,191 +216,112 @@
           <li><a href="#" onclick="openModal('jobboard')">💼 Jobs</a></li>
           <li><a href="#" onclick="openModal('profile')">👤 Profile</a></li>
           <li id="adminNavLink" style="display:none"><a href="#" onclick="openModal('dashboard')">📊 Dashboard</a></li>
+          <li id="adminRegLink" style="display:none"><a href="#" onclick="openModal('registrations')">📋 Approvals</a></li>
           <li><a href="#" onclick="logout()">Logout</a></li>
         </ul>
+        <button class="hamburger" id="hamburger" onclick="toggleMobileNav()">
+          <span></span><span></span><span></span>
+        </button>
       </nav>
     </header>
+
+    <ul class="mobile-nav" id="mobileNav">
+      <li><a href="#" onclick="openModalMobile('discover')">🔍 Discover Alumni</a></li>
+      <li><a href="#" onclick="openModalMobile('news')">📰 News & Events</a></li>
+      <li><a href="#" onclick="openModalMobile('achievements')">🏆 Achievements</a></li>
+      <li><a href="#" onclick="openModalMobile('engagement')">💬 Engagement</a></li>
+      <li><a href="#" onclick="openModalMobile('fundraising')">💰 Fundraising</a></li>
+      <li><a href="#" onclick="openModalMobile('jobboard')">💼 Job Board</a></li>
+      <li><a href="#" onclick="openModalMobile('profile')">👤 My Profile</a></li>
+      <li id="mobileAdminLink" style="display:none"><a href="#" onclick="openModalMobile('dashboard')">📊 Dashboard</a></li>
+      <li id="mobileRegLink" style="display:none"><a href="#" onclick="openModalMobile('registrations')">📋 Approvals</a></li>
+      <li><a href="#" onclick="logout()">🚪 Logout</a></li>
+    </ul>
 
     <main>
       <section class="hero">
         <div class="container">
           <h1>Welcome to AlumVerse</h1>
           <p>Reconnect with your classmates, discover achievements, and stay engaged with your fellow alumni.</p>
+          <button class="btn btn-outline" style="margin-top:0.5rem;" onclick="openModal('register')">📝 Register as Alumni</button>
         </div>
       </section>
 
-      <div class="engagement-stats" style="max-width:1200px;margin:0 auto 0;padding:0 20px;">
-        <div class="stat-card">
-          <div class="stat-number" id="totalAlumni">0</div>
-          <div>Total Alumni</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number" id="totalUsers">0</div>
-          <div>Total Users</div>
-        </div>
+      <div class="engagement-stats" style="max-width:1200px;margin:0 auto;padding:0 20px;">
+        <div class="stat-card"><div class="stat-number" id="totalAlumni">0</div><div>Total Alumni</div></div>
+        <div class="stat-card"><div class="stat-number" id="totalUsers">0</div><div>Total Users</div></div>
       </div>
 
       <section class="container">
         <div class="features-grid">
-          <div class="feature-card" onclick="openModal('discover')">
-            <h3>🔍 Discover Classmates</h3>
-            <p>Find your batch mates using graduation year, department, and profile pictures. Reconnect with old friends and make new professional connections.</p>
-          </div>
-          <div class="feature-card" onclick="openModal('news')">
-            <h3>📰 News & Events</h3>
-            <p>Stay updated with the latest college news, upcoming events, and organizational updates. Never miss important announcements.</p>
-          </div>
-          <div class="feature-card" onclick="openModal('achievements')">
-            <h3>🏆 Alumni Achievements</h3>
-            <p>Celebrate the success stories of fellow alumni. Discover major achievements, career milestones, and inspiring journeys.</p>
-          </div>
-          <div class="feature-card" onclick="openModal('engagement')">
-            <h3>💬 Engagement Platform</h3>
-            <p>Join discussions, share experiences, mentor juniors, and participate in alumni activities. Build a stronger community.</p>
-          </div>
-          <div class="feature-card" onclick="openModal('fundraising')">
-            <h3>💰 Fundraising Initiatives</h3>
-            <p>Support your alma mater through various fundraising initiatives. Contribute to scholarships, infrastructure development, and community projects.</p>
-          </div>
-          <div class="feature-card" onclick="openModal('mentorship and networking')">
-            <h3>🤝 Mentorship & Networking</h3>
-            <p>Connect with experienced alumni for guidance, advice, and networking opportunities. Foster professional relationships and personal growth.</p>
-          </div>
-          <div class="feature-card" onclick="openModal('jobboard')">
-            <h3>💼 Job Board</h3>
-            <p>Browse and post job openings shared by fellow alumni. Find opportunities in top companies or help others grow their careers.</p>
-          </div>
-          <div class="feature-card" onclick="openModal('profile')">
-            <h3>👤 My Profile</h3>
-            <p>View and update your personal profile, manage your connections, and showcase your career journey to fellow alumni.</p>
-          </div>
-          <div class="feature-card" id="dashboardCard" style="display:none" onclick="openModal('dashboard')">
-            <h3>📊 Admin Dashboard</h3>
-            <p>View analytics, charts by batch and department, manage alumni records, and export data — all in one place.</p>
-          </div>
+          <div class="feature-card" onclick="openModal('discover')"><h3>🔍 Discover Classmates</h3><p>Find your batch mates using graduation year, department, and profile pictures. Reconnect with old friends and make new professional connections.</p></div>
+          <div class="feature-card" onclick="openModal('news')"><h3>📰 News & Events</h3><p>Stay updated with the latest college news, upcoming events, and organizational updates. Never miss important announcements.</p></div>
+          <div class="feature-card" onclick="openModal('achievements')"><h3>🏆 Alumni Achievements</h3><p>Celebrate the success stories of fellow alumni. Discover major achievements, career milestones, and inspiring journeys.</p></div>
+          <div class="feature-card" onclick="openModal('engagement')"><h3>💬 Engagement Platform</h3><p>Join discussions, share experiences, mentor juniors, and participate in alumni activities. Build a stronger community.</p></div>
+          <div class="feature-card" onclick="openModal('fundraising')"><h3>💰 Fundraising Initiatives</h3><p>Support your alma mater through various fundraising initiatives. Contribute to scholarships and community projects.</p></div>
+          <div class="feature-card" onclick="openModal('jobboard')"><h3>💼 Job Board</h3><p>Browse and post job openings shared by fellow alumni. Find opportunities or help others grow their careers.</p></div>
+          <div class="feature-card" onclick="openModal('profile')"><h3>👤 My Profile</h3><p>View and update your personal profile, manage your connections, and showcase your career journey to fellow alumni.</p></div>
+          <div class="feature-card" onclick="openModal('register')"><h3>📝 Alumni Registration</h3><p>New alumni? Register here and wait for admin approval to join the AlumVerse community.</p></div>
+          <div class="feature-card" id="dashboardCard" style="display:none" onclick="openModal('dashboard')"><h3>📊 Admin Dashboard</h3><p>View analytics, charts, manage alumni records, approve registrations, and export data — all in one place.</p></div>
         </div>
       </section>
     </main>
 
-    <!-- ══════════════════════════════════════
-         DISCOVER ALUMNI MODAL
-    ══════════════════════════════════════ -->
+    <!-- DISCOVER MODAL -->
     <div id="discoverModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal('discoverModal')">&times;</span>
         <h2>🔍 Discover Your Classmates</h2>
-
         <div id="adminSection">
           <h3 style="margin:1rem 0 0.8rem">Add New Alumni</h3>
-          <div class="search-form">
+          <div class="search-form" style="margin-bottom:1rem;">
             <input type="text" id="newName" placeholder="Name" />
-            <input type="number" id="newBatch" placeholder="Batch" />
+            <input type="number" id="newBatch" placeholder="Batch Year" />
             <input type="text" id="newDepartment" placeholder="Department" />
             <input type="text" id="newCompany" placeholder="Company" />
             <input type="text" id="newLocation" placeholder="Location" />
             <button class="btn" onclick="addAlumni()">Add Alumni</button>
           </div>
         </div>
-
         <div class="search-section">
           <div class="search-form">
-            <div class="form-group">
-              <label for="batch">Graduation Year</label>
-              <select id="batch">
-                <option>Select Year</option>
-                <option>2023</option><option>2022</option><option>2021</option>
-                <option>2020</option><option>2019</option><option>2018</option>
-                <option>2017</option><option>2016</option><option>2015</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" placeholder="Alumni Name" />
-            </div>
-            <div class="form-group">
-              <label for="department">Department</label>
-              <select id="department">
-                <option>Select Department</option>
-                <option>Computer Science</option><option>Electronics</option>
-                <option>Mechanical</option><option>Civil</option><option>MBA</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="location">Current Location</label>
-              <input type="text" id="location" placeholder="City, Country" />
-            </div>
-            <div class="form-group">
-              <label for="company">Company</label>
-              <input type="text" id="company" placeholder="Current Company" />
-            </div>
+            <div class="form-group"><label>Graduation Year</label><select id="batch"><option>Select Year</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option></select></div>
+            <div class="form-group"><label>Name</label><input type="text" id="name" placeholder="Alumni Name" /></div>
+            <div class="form-group"><label>Department</label><select id="department"><option>Select Department</option><option>Computer Science</option><option>Electronics</option><option>Mechanical</option><option>Civil</option><option>MBA</option></select></div>
+            <div class="form-group"><label>Location</label><input type="text" id="location" placeholder="City, Country" /></div>
+            <div class="form-group"><label>Company</label><input type="text" id="company" placeholder="Current Company" /></div>
           </div>
           <button class="btn" onclick="searchAlumni()">Search Alumni</button>
         </div>
-
         <div id="alumniResults" class="alumni-grid"></div>
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         NEWS & EVENTS MODAL
-    ══════════════════════════════════════ -->
+    <!-- NEWS MODAL -->
     <div id="newsModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal('newsModal')">&times;</span>
         <h2>📰 News & Events</h2>
-        <div class="news-item">
-          <h3>Annual Alumni Meet 2025 Announced</h3>
-          <p><strong>Date:</strong> March 15, 2025</p>
-          <p>Join us for the biggest alumni gathering of the year! Reconnect with old friends, network with professionals, and celebrate our college's achievements. Registration opens February 1st.</p>
-        </div>
-        <div class="news-item">
-          <h3>New Engineering Block Inauguration</h3>
-          <p><strong>Date:</strong> January 20, 2025</p>
-          <p>Our state-of-the-art engineering facility is now open! Featuring modern labs, research centers, and collaborative spaces for the next generation of innovators.</p>
-        </div>
-        <h3>🎉 Upcoming Events</h3>
-        <div class="event-card">
-          <div class="event-date"><div>FEB</div><div><strong>14</strong></div></div>
-          <div><h4>Career Guidance Workshop</h4><p>Industry experts share insights on career transitions and growth opportunities.</p></div>
-        </div>
-        <div class="event-card">
-          <div class="event-date"><div>MAR</div><div><strong>10</strong></div></div>
-          <div><h4>Alumni Entrepreneurship Summit</h4><p>Celebrating alumni who have built successful startups and businesses.</p></div>
-        </div>
+        <div class="news-item"><h3>Annual Alumni Meet 2025 Announced</h3><p><strong>Date:</strong> March 15, 2025</p><p>Join us for the biggest alumni gathering of the year! Reconnect with old friends and celebrate our college's achievements.</p></div>
+        <div class="news-item"><h3>New Engineering Block Inauguration</h3><p><strong>Date:</strong> January 20, 2025</p><p>Our state-of-the-art engineering facility is now open! Featuring modern labs, research centers, and collaborative spaces.</p></div>
+        <h3 style="margin-bottom:1rem;">🎉 Upcoming Events</h3>
+        <div class="event-card"><div class="event-date"><div>FEB</div><div><strong>14</strong></div></div><div><h4>Career Guidance Workshop</h4><p>Industry experts share insights on career transitions and growth opportunities.</p></div></div>
+        <div class="event-card"><div class="event-date"><div>MAR</div><div><strong>10</strong></div></div><div><h4>Alumni Entrepreneurship Summit</h4><p>Celebrating alumni who have built successful startups and businesses.</p></div></div>
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         ACHIEVEMENTS MODAL
-    ══════════════════════════════════════ -->
+    <!-- ACHIEVEMENTS MODAL -->
     <div id="achievementsModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal('achievementsModal')">&times;</span>
         <h2>🏆 Alumni Achievements</h2>
-        <div class="achievement-card">
-          <h3>🌟 Spotlight: Dr. Priya Sharma (CS '18)</h3>
-          <p><strong>Achievement:</strong> Published groundbreaking research in AI ethics at MIT</p>
-          <p>Dr. Sharma's research on responsible AI development has been featured in top-tier journals and is influencing policy decisions globally.</p>
-          <p><strong>Current Position:</strong> Senior Research Scientist, Google AI</p>
-        </div>
-        <div class="achievement-card">
-          <h3>🚀 Rajesh Kumar (ME '15) - Startup Success</h3>
-          <p><strong>Achievement:</strong> Founded GreenTech Solutions, raised $10M in Series A</p>
-          <p>His company is revolutionizing renewable energy solutions for rural communities across India, impacting over 50,000 households.</p>
-          <p><strong>Recognition:</strong> Forbes 30 Under 30, Clean Energy Category</p>
-        </div>
-        <div class="achievement-card">
-          <h3>🏅 Anitha Reddy (Civil '12) - Infrastructure Excellence</h3>
-          <p><strong>Achievement:</strong> Led the design of Mumbai's new sustainable metro line</p>
-          <p>As Chief Engineer, she incorporated green building technologies, reducing the project's carbon footprint by 40%.</p>
-          <p><strong>Awards:</strong> National Engineering Excellence Award 2024</p>
-        </div>
+        <div class="achievement-card"><h3>🌟 Dr. Priya Sharma (CS '18)</h3><p><strong>Achievement:</strong> Published groundbreaking research in AI ethics at MIT</p><p>Her research is influencing policy decisions globally.</p><p><strong>Current Position:</strong> Senior Research Scientist, Google AI</p></div>
+        <div class="achievement-card"><h3>🚀 Rajesh Kumar (ME '15)</h3><p><strong>Achievement:</strong> Founded GreenTech Solutions, raised $10M in Series A</p><p>Impacting 50,000+ households with clean energy access.</p><p><strong>Recognition:</strong> Forbes 30 Under 30</p></div>
+        <div class="achievement-card"><h3>🏅 Anitha Reddy (Civil '12)</h3><p><strong>Achievement:</strong> Led design of Mumbai's new sustainable metro line</p><p>Reduced carbon footprint by 40%.</p><p><strong>Awards:</strong> National Engineering Excellence Award 2024</p></div>
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         ENGAGEMENT MODAL
-    ══════════════════════════════════════ -->
+    <!-- ENGAGEMENT MODAL -->
     <div id="engagementModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal('engagementModal')">&times;</span>
@@ -419,113 +333,86 @@
           <div class="stat-card"><div class="stat-number">23</div><div>Active Projects</div></div>
         </div>
         <h3>🗨️ Recent Discussions</h3>
-        <div class="news-item">
-          <h4>Career Transition Tips - Tech to Management</h4>
-          <p>Share your experiences moving from technical roles to management positions. What skills were most valuable?</p>
-          <small>Started by: Amit Shah (CS '16) • 23 replies • 2 hours ago</small>
-        </div>
-        <div class="news-item">
-          <h4>Alumni Startup Collaboration Opportunities</h4>
-          <p>Looking for fellow alumni interested in fintech innovations. Let's build something together!</p>
-          <small>Started by: Neha Patel (ECE '19) • 15 replies • 1 day ago</small>
-        </div>
-        <h3>🎯 Mentorship Program</h3>
-        <div class="search-section">
-          <p>Connect with experienced alumni for career guidance or offer mentorship to recent graduates.</p>
-          <button class="btn" onclick="alert('Mentorship matching system activated!')">Join as Mentor/Mentee</button>
-        </div>
+        <div class="news-item"><h4>Career Transition Tips - Tech to Management</h4><p>Share your experiences moving from technical roles to management positions.</p><small>Started by: Amit Shah (CS '16) • 23 replies • 2 hours ago</small></div>
+        <div class="news-item"><h4>Alumni Startup Collaboration Opportunities</h4><p>Looking for fellow alumni interested in fintech innovations.</p><small>Started by: Neha Patel (ECE '19) • 15 replies • 1 day ago</small></div>
+        <h3 style="margin:1rem 0 0.8rem;">🎯 Mentorship Program</h3>
+        <div class="search-section"><p>Connect with experienced alumni for career guidance or offer mentorship to recent graduates.</p><br/><button class="btn" onclick="showToast('Mentorship matching system activated!','success')">Join as Mentor/Mentee</button></div>
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         FUNDRAISING MODAL
-    ══════════════════════════════════════ -->
+    <!-- FUNDRAISING MODAL -->
     <div id="fundraisingModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal('fundraisingModal')">&times;</span>
         <h2>💰 Fundraising Initiatives</h2>
-        <p>Support your alma mater through various fundraising initiatives. Contribute to scholarships, infrastructure development, and community projects.</p>
-        <br/>
-        <button class="btn" onclick="alert('Fundraising initiatives activated!')">Join as Donor/Volunteer</button>
+        <p style="margin-bottom:1.5rem;">Support your alma mater through various fundraising initiatives. Contribute to scholarships, infrastructure development, and community projects.</p>
+        <button class="btn" onclick="showToast('Thank you for your interest! Redirecting to donation portal...','success')">Join as Donor/Volunteer</button>
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         JOB BOARD MODAL
-    ══════════════════════════════════════ -->
+    <!-- REGISTRATION MODAL -->
+    <div id="registerModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('registerModal')">&times;</span>
+        <h2>📝 Alumni Registration</h2>
+        <p style="opacity:0.75;margin-bottom:1.2rem;">Fill in your details below. Your registration will be reviewed and approved by the admin before you appear in the alumni directory.</p>
+        <div class="search-section">
+          <div class="search-form">
+            <div class="form-group"><label>Full Name *</label><input type="text" id="regName" placeholder="Your full name" /></div>
+            <div class="form-group"><label>Batch Year *</label><input type="number" id="regBatch" placeholder="e.g. 2021" /></div>
+            <div class="form-group"><label>Department *</label><select id="regDept"><option value="">Select Department</option><option>Computer Science</option><option>Electronics</option><option>Mechanical</option><option>Civil</option><option>MBA</option></select></div>
+            <div class="form-group"><label>Current Company</label><input type="text" id="regCompany" placeholder="Where do you work?" /></div>
+            <div class="form-group"><label>Current Location</label><input type="text" id="regLocation" placeholder="City, Country" /></div>
+            <div class="form-group"><label>Email *</label><input type="email" id="regEmail" placeholder="your@email.com" /></div>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem;"><label>Short Bio</label><textarea id="regBio" placeholder="Tell us a little about yourself..."></textarea></div>
+          <button class="btn" onclick="submitRegistration()">📤 Submit Registration</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PENDING REGISTRATIONS MODAL (ADMIN) -->
+    <div id="registrationsModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('registrationsModal')">&times;</span>
+        <h2>📋 Pending Registrations</h2>
+        <p style="opacity:0.7;margin-bottom:1.2rem;">Review and approve or reject alumni registration requests.</p>
+        <div id="pendingList"><p style="text-align:center;opacity:0.6;padding:2rem;">Loading...</p></div>
+      </div>
+    </div>
+
+    <!-- JOB BOARD MODAL -->
     <div id="jobboardModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal('jobboardModal')">&times;</span>
         <h2>💼 Job Board</h2>
-        <p style="opacity:0.7;margin-bottom:1.2rem;">Opportunities posted by fellow alumni — for alumni</p>
-
-        <!-- Post a Job -->
+        <p style="opacity:0.7;margin-bottom:1rem;">Opportunities posted by fellow alumni — for alumni</p>
         <div class="search-section">
           <h3 style="margin-bottom:1rem;">➕ Post a Job Opening</h3>
           <div class="search-form">
-            <div class="form-group">
-              <label>Job Title *</label>
-              <input type="text" id="jobTitle" placeholder="e.g. Software Engineer" />
-            </div>
-            <div class="form-group">
-              <label>Company *</label>
-              <input type="text" id="jobCompany" placeholder="Company name" />
-            </div>
-            <div class="form-group">
-              <label>Location</label>
-              <input type="text" id="jobLocation" placeholder="e.g. Bangalore, Remote" />
-            </div>
-            <div class="form-group">
-              <label>Type</label>
-              <select id="jobType">
-                <option value="Full-Time">Full-Time</option>
-                <option value="Internship">Internship</option>
-                <option value="Remote">Remote</option>
-                <option value="Contract">Contract</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Apply Email *</label>
-              <input type="email" id="jobEmail" placeholder="hr@company.com" />
-            </div>
-            <div class="form-group">
-              <label>Skills (comma separated)</label>
-              <input type="text" id="jobSkills" placeholder="e.g. Java, React, SQL" />
-            </div>
+            <div class="form-group"><label>Job Title *</label><input type="text" id="jobTitle" placeholder="e.g. Software Engineer" /></div>
+            <div class="form-group"><label>Company *</label><input type="text" id="jobCompany" placeholder="Company name" /></div>
+            <div class="form-group"><label>Location</label><input type="text" id="jobLocation" placeholder="e.g. Bangalore, Remote" /></div>
+            <div class="form-group"><label>Type</label><select id="jobType"><option value="Full-Time">Full-Time</option><option value="Internship">Internship</option><option value="Remote">Remote</option><option value="Contract">Contract</option></select></div>
+            <div class="form-group"><label>Apply Email *</label><input type="email" id="jobEmail" placeholder="hr@company.com" /></div>
+            <div class="form-group"><label>Skills (comma separated)</label><input type="text" id="jobSkills" placeholder="e.g. Java, React, SQL" /></div>
           </div>
-          <div class="form-group" style="margin-bottom:1rem;">
-            <label>Description</label>
-            <textarea id="jobDesc" placeholder="Brief job description..."></textarea>
-          </div>
+          <div class="form-group" style="margin-bottom:1rem;"><label>Description</label><textarea id="jobDesc" placeholder="Brief job description..."></textarea></div>
           <button class="btn" onclick="postJob()">📤 Post Job</button>
         </div>
-
-        <!-- Filters -->
         <div class="filters">
           <input type="text" id="filterSearch" placeholder="🔍 Search title or company..." oninput="filterJobs()" />
-          <select id="filterType" onchange="filterJobs()">
-            <option value="">All Types</option>
-            <option>Full-Time</option><option>Internship</option>
-            <option>Remote</option><option>Contract</option>
-          </select>
+          <select id="filterType" onchange="filterJobs()"><option value="">All Types</option><option>Full-Time</option><option>Internship</option><option>Remote</option><option>Contract</option></select>
         </div>
-
-        <!-- Jobs List -->
-        <div id="jobsContainer">
-          <p style="text-align:center;opacity:0.6;padding:2rem;">Loading jobs...</p>
-        </div>
+        <div id="jobsContainer"><p style="text-align:center;opacity:0.6;padding:2rem;">Loading jobs...</p></div>
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         PROFILE MODAL
-    ══════════════════════════════════════ -->
+    <!-- PROFILE MODAL -->
     <div id="profileModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal('profileModal')">&times;</span>
         <h2>👤 My Profile</h2>
-
-        <!-- Profile Header -->
         <div class="profile-header-box">
           <div class="avatar-big" id="profileAvatar">?</div>
           <div class="profile-meta-info">
@@ -540,34 +427,21 @@
           </div>
           <button class="btn btn-sm" style="margin-left:auto;align-self:flex-start;" onclick="toggleProfileEdit()">✏️ Edit</button>
         </div>
-
-        <!-- Edit Form (hidden by default) -->
         <div id="profileEditForm" style="display:none;">
           <div class="search-section">
             <h4 style="margin-bottom:1rem;">Edit Your Details</h4>
             <div class="search-form">
               <div class="form-group"><label>Full Name</label><input type="text" id="editName" /></div>
-              <div class="form-group"><label>Batch Year</label><input type="number" id="editBatch" placeholder="e.g. 2021" /></div>
-              <div class="form-group">
-                <label>Department</label>
-                <select id="editDept">
-                  <option>Computer Science</option><option>Electronics</option>
-                  <option>Mechanical</option><option>Civil</option><option>MBA</option>
-                </select>
-              </div>
+              <div class="form-group"><label>Batch Year</label><input type="number" id="editBatch" /></div>
+              <div class="form-group"><label>Department</label><select id="editDept"><option>Computer Science</option><option>Electronics</option><option>Mechanical</option><option>Civil</option><option>MBA</option></select></div>
               <div class="form-group"><label>Company</label><input type="text" id="editCompany" /></div>
               <div class="form-group"><label>Location</label><input type="text" id="editLocation" /></div>
               <div class="form-group"><label>LinkedIn URL</label><input type="url" id="editLinkedIn" placeholder="https://linkedin.com/in/..." /></div>
             </div>
-            <div class="form-group" style="margin-bottom:1rem;">
-              <label>Bio</label>
-              <textarea id="editBio" placeholder="Tell fellow alumni about yourself..."></textarea>
-            </div>
+            <div class="form-group" style="margin-bottom:1rem;"><label>Bio</label><textarea id="editBio" placeholder="Tell fellow alumni about yourself..."></textarea></div>
             <button class="btn" onclick="saveProfile()">💾 Save Changes</button>
           </div>
         </div>
-
-        <!-- Profile Details -->
         <div class="info-card">
           <h4>📋 Profile Details</h4>
           <div class="info-row"><span class="info-label">Username</span><span id="infoUsername">—</span></div>
@@ -579,116 +453,103 @@
           <div class="info-row"><span class="info-label">LinkedIn</span><span id="infoLinkedIn">—</span></div>
           <div class="info-row"><span class="info-label">Bio</span><span id="infoBio" style="max-width:60%;text-align:right;">—</span></div>
         </div>
-
-        <!-- Connections -->
         <div class="info-card">
           <h4>🤝 My Connections <span id="connCount" style="opacity:0.5;font-size:0.82rem;"></span></h4>
-          <div class="connections-mini" id="connectionsGrid">
-            <p style="opacity:0.6;font-size:0.88rem;">No connections yet. Connect with alumni from the Discover page!</p>
-          </div>
+          <div class="connections-mini" id="connectionsGrid"><p style="opacity:0.6;font-size:0.88rem;">No connections yet.</p></div>
         </div>
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         ADMIN DASHBOARD MODAL
-    ══════════════════════════════════════ -->
+    <!-- ADMIN DASHBOARD MODAL -->
     <div id="dashboardModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal('dashboardModal')">&times;</span>
         <h2>📊 Admin Dashboard</h2>
         <p style="opacity:0.65;margin-bottom:1.2rem;">Overview of alumni data and platform activity</p>
-
-        <!-- Stats -->
         <div class="dash-stats">
           <div class="dash-stat"><div class="big" id="dashTotalAlumni">—</div><div>Total Alumni</div></div>
           <div class="dash-stat"><div class="big" id="dashTotalUsers">—</div><div>Registered Users</div></div>
           <div class="dash-stat"><div class="big" id="dashTotalJobs">—</div><div>Job Postings</div></div>
-          <div class="dash-stat"><div class="big" id="dashLatestBatch">—</div><div>Latest Batch</div></div>
+          <div class="dash-stat"><div class="big" id="dashPending">—</div><div>Pending Approvals</div></div>
         </div>
-
-        <!-- Charts -->
         <div class="charts-grid">
           <div class="chart-card"><h4>📅 Alumni by Batch Year</h4><canvas id="batchChart"></canvas></div>
           <div class="chart-card"><h4>🎓 Alumni by Department</h4><canvas id="deptChart"></canvas></div>
           <div class="chart-card"><h4>📍 Top Locations</h4><canvas id="locationChart"></canvas></div>
           <div class="chart-card"><h4>🏢 Top Companies</h4><canvas id="companyChart"></canvas></div>
         </div>
-
-        <!-- Recent Table -->
         <div class="table-wrap">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;">
             <h4>👥 Recently Added Alumni</h4>
             <button class="btn btn-sm" onclick="exportCSV()">⬇️ Export CSV</button>
           </div>
           <table>
-            <thead>
-              <tr><th>Name</th><th>Batch</th><th>Department</th><th>Company</th><th>Location</th><th>Action</th></tr>
-            </thead>
-            <tbody id="dashTableBody">
-              <tr><td colspan="6" style="text-align:center;opacity:0.5;">Loading...</td></tr>
-            </tbody>
+            <thead><tr><th>Name</th><th>Batch</th><th>Department</th><th>Company</th><th>Location</th><th>Action</th></tr></thead>
+            <tbody id="dashTableBody"><tr><td colspan="6" style="text-align:center;opacity:0.5;">Loading...</td></tr></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         SCRIPTS
-    ══════════════════════════════════════ -->
     <script>
-      // ── AUTH GUARD ──
+      // AUTH GUARD
       const role = localStorage.getItem("role");
       const username = localStorage.getItem("username");
       if (!role) window.location.href = "login.html";
 
-      if (role !== "ADMIN") {
-        const adminSection = document.getElementById("adminSection");
-        if (adminSection) adminSection.style.display = "none";
-      } else {
+      if (role === "ADMIN") {
         document.getElementById("adminNavLink").style.display = "inline";
+        document.getElementById("adminRegLink").style.display = "inline";
         document.getElementById("dashboardCard").style.display = "block";
+        document.getElementById("mobileAdminLink").style.display = "block";
+        document.getElementById("mobileRegLink").style.display = "block";
+      } else {
+        document.getElementById("adminSection").style.display = "none";
       }
 
-      // ── MODAL CONTROL ──
-      let dashboardBuilt = false;
-      let jobsLoaded = false;
+      // TOAST
+      function showToast(message, type = "info") {
+        const icons = { success:"✅", error:"❌", info:"ℹ️", warning:"⚠️" };
+        const container = document.getElementById("toastContainer");
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<span>${icons[type]||"ℹ️"}</span> ${message}`;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+
+      // HAMBURGER MENU
+      function toggleMobileNav() {
+        document.getElementById("mobileNav").classList.toggle("open");
+        document.getElementById("hamburger").classList.toggle("open");
+      }
+      function openModalMobile(type) {
+        toggleMobileNav();
+        setTimeout(() => openModal(type), 200);
+      }
+
+      // MODAL CONTROL
+      let jobsLoaded = false, chartsBuilt = false;
 
       function openModal(type) {
-        const map = {
-          discover: "discoverModal",
-          news: "newsModal",
-          achievements: "achievementsModal",
-          engagement: "engagementModal",
-          fundraising: "fundraisingModal",
-          jobboard: "jobboardModal",
-          profile: "profileModal",
-          dashboard: "dashboardModal",
-        };
+        const map = { discover:"discoverModal", news:"newsModal", achievements:"achievementsModal", engagement:"engagementModal", fundraising:"fundraisingModal", jobboard:"jobboardModal", profile:"profileModal", dashboard:"dashboardModal", register:"registerModal", registrations:"registrationsModal" };
         const id = map[type];
         if (!id) return;
         document.getElementById(id).style.display = "block";
-
         if (type === "discover") loadAlumni();
         if (type === "jobboard" && !jobsLoaded) { loadJobs(); jobsLoaded = true; }
         if (type === "profile") renderProfile();
         if (type === "dashboard" && role === "ADMIN") loadDashboard();
+        if (type === "registrations" && role === "ADMIN") loadPendingRegistrations();
       }
 
-      function closeModal(id) {
-        document.getElementById(id).style.display = "none";
-      }
+      function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
-      // Close modal on outside click
       window.onclick = function(e) {
-        document.querySelectorAll(".modal").forEach(m => {
-          if (e.target === m) m.style.display = "none";
-        });
+        document.querySelectorAll(".modal").forEach(m => { if (e.target === m) m.style.display = "none"; });
       };
 
-      // ════════════════════════════════
-      // DISCOVER ALUMNI
-      // ════════════════════════════════
+      // DISCOVER
       let alumniData = [];
 
       async function loadAlumni() {
@@ -696,355 +557,250 @@
           const res = await fetch("http://localhost:8080/alumni");
           alumniData = await res.json();
           renderAlumni(alumniData);
-        } catch (e) { console.error("Error loading alumni:", e); }
+        } catch { showToast("Could not load alumni data","error"); }
       }
 
       function renderAlumni(list) {
         const c = document.getElementById("alumniResults");
-        if (!list || list.length === 0) {
-          c.innerHTML = "<p style='text-align:center;padding:2rem;'>❌ No alumni found</p>";
-          return;
-        }
-        c.innerHTML = list.map(p => `
+        if (!list||list.length===0) { c.innerHTML="<p style='text-align:center;padding:2rem;'>❌ No alumni found</p>"; return; }
+        c.innerHTML = list.map(p=>`
           <div class="alumni-card">
             <div class="alumni-photo">${p.name.split(" ").map(n=>n[0]).join("")}</div>
             <h4>${p.name}</h4>
             <p><strong>Batch:</strong> ${p.batch}</p>
             <p><strong>Dept:</strong> ${p.department}</p>
-            <p><strong>Company:</strong> ${p.company}</p>
-            <p><strong>Location:</strong> ${p.location}</p>
-            ${role === "ADMIN" ? `<button class="btn btn-danger btn-sm" style="margin-bottom:0.4rem;" onclick="deleteAlumni(${p.id})">🗑 Delete</button>` : ""}
-            <button class="btn btn-sm" onclick="connectAlumni('${p.name}')">Connect</button>
+            <p><strong>Company:</strong> ${p.company||"—"}</p>
+            <p><strong>Location:</strong> ${p.location||"—"}</p>
+            <div style="display:flex;gap:0.4rem;justify-content:center;margin-top:0.8rem;flex-wrap:wrap;">
+              ${role==="ADMIN"?`<button class="btn btn-danger btn-sm" onclick="deleteAlumni(${p.id})">🗑 Delete</button>`:""}
+              <button class="btn btn-sm" onclick="connectAlumni('${p.name}')">Connect</button>
+            </div>
           </div>`).join("");
       }
 
       function searchAlumni() {
-        const name = document.getElementById("name").value.toLowerCase();
-        const batch = document.getElementById("batch").value;
-        const dept = document.getElementById("department").value;
-        const loc = document.getElementById("location").value.toLowerCase();
-        const comp = document.getElementById("company").value.toLowerCase();
-        renderAlumni(alumniData.filter(p =>
-          (name === "" || p.name.toLowerCase().includes(name)) &&
-          (batch === "Select Year" || p.batch == batch) &&
-          (dept === "Select Department" || p.department === dept) &&
-          (loc === "" || (p.location && p.location.toLowerCase().includes(loc))) &&
-          (comp === "" || (p.company && p.company.toLowerCase().includes(comp)))
+        const name=document.getElementById("name").value.toLowerCase();
+        const batch=document.getElementById("batch").value;
+        const dept=document.getElementById("department").value;
+        const loc=document.getElementById("location").value.toLowerCase();
+        const comp=document.getElementById("company").value.toLowerCase();
+        renderAlumni(alumniData.filter(p=>
+          (name===""||p.name.toLowerCase().includes(name))&&
+          (batch==="Select Year"||p.batch==batch)&&
+          (dept==="Select Department"||p.department===dept)&&
+          (loc===""||( p.location&&p.location.toLowerCase().includes(loc)))&&
+          (comp===""||( p.company&&p.company.toLowerCase().includes(comp)))
         ));
       }
 
       function connectAlumni(name) {
-        const connections = JSON.parse(localStorage.getItem("connections") || "[]");
-        if (!connections.includes(name)) {
-          connections.push(name);
-          localStorage.setItem("connections", JSON.stringify(connections));
-        }
-        alert(`Connection request sent to ${name}!`);
+        const c=JSON.parse(localStorage.getItem("connections")||"[]");
+        if(!c.includes(name)){c.push(name);localStorage.setItem("connections",JSON.stringify(c));}
+        showToast(`Connection request sent to ${name}!`,"success");
       }
 
       async function deleteAlumni(id) {
-        if (!confirm("Delete this alumni?")) return;
-        try {
-          await fetch(`http://localhost:8080/alumni/${id}`, { method: "DELETE" });
-          alumniData = alumniData.filter(a => a.id !== id);
-          renderAlumni(alumniData);
-        } catch (e) { console.error(e); }
+        if(!confirm("Delete this alumni?"))return;
+        try{await fetch(`http://localhost:8080/alumni/${id}`,{method:"DELETE"});alumniData=alumniData.filter(a=>a.id!==id);renderAlumni(alumniData);showToast("Alumni deleted","success");}
+        catch{showToast("Error deleting alumni","error");}
       }
 
       async function addAlumni() {
-        const alumni = {
-          name: document.getElementById("newName").value,
-          batch: document.getElementById("newBatch").value,
-          department: document.getElementById("newDepartment").value,
-          company: document.getElementById("newCompany").value,
-          location: document.getElementById("newLocation").value,
-        };
-        try {
-          await fetch("http://localhost:8080/alumni", {
-            method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(alumni),
-          });
-          alert("Alumni added successfully");
-          ["newName","newBatch","newDepartment","newCompany","newLocation"].forEach(id => document.getElementById(id).value = "");
+        const alumni={name:document.getElementById("newName").value,batch:document.getElementById("newBatch").value,department:document.getElementById("newDepartment").value,company:document.getElementById("newCompany").value,location:document.getElementById("newLocation").value};
+        if(!alumni.name||!alumni.batch){showToast("Name and Batch are required","warning");return;}
+        try{
+          await fetch("http://localhost:8080/alumni",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(alumni)});
+          showToast("Alumni added successfully!","success");
+          ["newName","newBatch","newDepartment","newCompany","newLocation"].forEach(id=>document.getElementById(id).value="");
           loadAlumni();
-        } catch (e) { console.error(e); }
+        }catch{showToast("Error adding alumni","error");}
       }
 
-      // ════════════════════════════════
+      // SELF-REGISTRATION
+      async function submitRegistration() {
+        const reg={name:document.getElementById("regName").value.trim(),batch:document.getElementById("regBatch").value.trim(),department:document.getElementById("regDept").value,company:document.getElementById("regCompany").value.trim(),location:document.getElementById("regLocation").value.trim(),email:document.getElementById("regEmail").value.trim(),bio:document.getElementById("regBio").value.trim(),status:"PENDING"};
+        if(!reg.name||!reg.batch||!reg.department||!reg.email){showToast("Please fill Name, Batch, Department and Email","warning");return;}
+        try{
+          await fetch("http://localhost:8080/registrations",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(reg)});
+          showToast("Registration submitted! Waiting for admin approval ✅","success");
+          ["regName","regBatch","regCompany","regLocation","regEmail","regBio"].forEach(id=>document.getElementById(id).value="");
+          document.getElementById("regDept").value="";
+          closeModal("registerModal");
+        }catch{showToast("Could not submit. Please try again.","error");}
+      }
+
+      async function loadPendingRegistrations() {
+        const container=document.getElementById("pendingList");
+        try{
+          const res=await fetch("http://localhost:8080/registrations");
+          const list=await res.json();
+          const pending=list.filter(r=>r.status==="PENDING");
+          if(document.getElementById("dashPending"))document.getElementById("dashPending").innerText=pending.length;
+          if(!pending.length){container.innerHTML=`<p style="text-align:center;opacity:0.6;padding:2rem;">✅ No pending registrations</p>`;return;}
+          container.innerHTML=pending.map(r=>`
+            <div class="info-card" style="margin-bottom:1rem;">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;">
+                <div>
+                  <h4>${r.name} <span class="reg-badge reg-pending">PENDING</span></h4>
+                  <p style="font-size:0.88rem;opacity:0.75;margin-top:0.3rem;">📚 ${r.department} • 🎓 Batch ${r.batch} • 🏢 ${r.company||"—"} • 📍 ${r.location||"—"}</p>
+                  <p style="font-size:0.82rem;opacity:0.65;margin-top:0.2rem;">📧 ${r.email}</p>
+                  ${r.bio?`<p style="font-size:0.85rem;margin-top:0.4rem;opacity:0.8;">${r.bio}</p>`:""}
+                </div>
+                <div style="display:flex;gap:0.5rem;">
+                  <button class="btn btn-success btn-sm" onclick="approveReg(${r.id})">✅ Approve</button>
+                  <button class="btn btn-danger btn-sm" onclick="rejectReg(${r.id})">❌ Reject</button>
+                </div>
+              </div>
+            </div>`).join("");
+        }catch{container.innerHTML=`<p style="text-align:center;opacity:0.6;padding:2rem;">Could not load registrations.</p>`;}
+      }
+
+      async function approveReg(id) {
+        try{await fetch(`http://localhost:8080/registrations/${id}/approve`,{method:"PUT"});showToast("Registration approved! ✅","success");loadPendingRegistrations();loadAlumni();}
+        catch{showToast("Error approving registration","error");}
+      }
+
+      async function rejectReg(id) {
+        try{await fetch(`http://localhost:8080/registrations/${id}/reject`,{method:"PUT"});showToast("Registration rejected","info");loadPendingRegistrations();}
+        catch{showToast("Error rejecting registration","error");}
+      }
+
       // JOB BOARD
-      // ════════════════════════════════
-      let allJobs = [];
+      let allJobs=[];
 
       async function loadJobs() {
-        try {
-          const res = await fetch("http://localhost:8080/jobs");
-          allJobs = await res.json();
-          renderJobs(allJobs);
-        } catch {
-          allJobs = [
-            { id:1, title:"Frontend Developer", company:"TechCorp", location:"Bangalore", type:"Full-Time", description:"Build modern web apps using React and TypeScript.", skills:"React,TypeScript,CSS", email:"hr@techcorp.com", postedBy:"Rahul M" },
-            { id:2, title:"Data Analyst Intern", company:"DataHub", location:"Remote", type:"Internship", description:"Analyze large datasets and build dashboards.", skills:"Python,SQL,Tableau", email:"internships@datahub.com", postedBy:"Priya S" },
-          ];
-          renderJobs(allJobs);
-        }
+        try{const res=await fetch("http://localhost:8080/jobs");allJobs=await res.json();renderJobs(allJobs);}
+        catch{allJobs=[{id:1,title:"Frontend Developer",company:"TechCorp",location:"Bangalore",type:"Full-Time",description:"Build modern web apps using React and TypeScript.",skills:"React,TypeScript,CSS",email:"hr@techcorp.com",postedBy:"Rahul M"},{id:2,title:"Data Analyst Intern",company:"DataHub",location:"Remote",type:"Internship",description:"Analyze datasets and build dashboards.",skills:"Python,SQL,Tableau",email:"hr@datahub.com",postedBy:"Priya S"}];renderJobs(allJobs);}
       }
 
-      function typeBadge(type) {
-        const map = { "Full-Time":"type-full","Internship":"type-intern","Remote":"type-remote","Contract":"type-contract" };
-        return `<span class="type-badge ${map[type]||''}">${type}</span>`;
+      function typeBadge(type){const map={"Full-Time":"type-full","Internship":"type-intern","Remote":"type-remote","Contract":"type-contract"};return `<span class="type-badge ${map[type]||''}">${type}</span>`;}
+
+      function renderJobs(jobs){
+        const c=document.getElementById("jobsContainer");
+        if(!jobs.length){c.innerHTML=`<p style="text-align:center;opacity:0.6;padding:2rem;">😕 No jobs found</p>`;return;}
+        c.innerHTML=jobs.map(j=>`<div class="job-card"><div><div class="job-title">${j.title}</div><div class="job-company">🏢 ${j.company}</div><div class="job-meta"><span>📍 ${j.location||"N/A"}</span><span>👤 ${j.postedBy||"Alumni"}</span></div><div class="job-desc">${j.description||""}</div><div class="job-tags">${(j.skills||"").split(",").map(s=>`<span class="tag">${s.trim()}</span>`).join("")}</div></div><div class="job-actions">${typeBadge(j.type)}<a href="mailto:${j.email}" class="btn btn-sm" style="text-decoration:none;">Apply →</a>${role==="ADMIN"?`<button class="btn btn-danger btn-sm" onclick="deleteJob(${j.id})">🗑</button>`:""}</div></div>`).join("");
       }
 
-      function renderJobs(jobs) {
-        const c = document.getElementById("jobsContainer");
-        if (!jobs.length) { c.innerHTML = `<p style="text-align:center;opacity:0.6;padding:2rem;">😕 No jobs found</p>`; return; }
-        c.innerHTML = jobs.map(j => `
-          <div class="job-card">
-            <div>
-              <div class="job-title">${j.title}</div>
-              <div class="job-company">🏢 ${j.company}</div>
-              <div class="job-meta"><span>📍 ${j.location||"N/A"}</span><span>👤 ${j.postedBy||"Alumni"}</span></div>
-              <div class="job-desc">${j.description||""}</div>
-              <div class="job-tags">${(j.skills||"").split(",").map(s=>`<span class="tag">${s.trim()}</span>`).join("")}</div>
-            </div>
-            <div class="job-actions">
-              ${typeBadge(j.type)}
-              <a href="mailto:${j.email}" class="btn btn-sm" style="text-decoration:none;">Apply →</a>
-              ${role==="ADMIN"?`<button class="btn btn-danger btn-sm" onclick="deleteJob(${j.id})">🗑</button>`:""}
-            </div>
-          </div>`).join("");
-      }
+      function filterJobs(){const s=document.getElementById("filterSearch").value.toLowerCase();const t=document.getElementById("filterType").value;renderJobs(allJobs.filter(j=>(!s||j.title.toLowerCase().includes(s)||j.company.toLowerCase().includes(s))&&(!t||j.type===t)));}
 
-      function filterJobs() {
-        const s = document.getElementById("filterSearch").value.toLowerCase();
-        const t = document.getElementById("filterType").value;
-        renderJobs(allJobs.filter(j =>
-          (!s || j.title.toLowerCase().includes(s) || j.company.toLowerCase().includes(s)) &&
-          (!t || j.type === t)
-        ));
-      }
-
-      async function postJob() {
-        const job = {
-          title: document.getElementById("jobTitle").value.trim(),
-          company: document.getElementById("jobCompany").value.trim(),
-          location: document.getElementById("jobLocation").value.trim(),
-          type: document.getElementById("jobType").value,
-          email: document.getElementById("jobEmail").value.trim(),
-          skills: document.getElementById("jobSkills").value.trim(),
-          description: document.getElementById("jobDesc").value.trim(),
-          postedBy: username || "Alumni"
-        };
-        if (!job.title || !job.company || !job.email) { alert("Please fill Title, Company and Apply Email."); return; }
-        try {
-          const res = await fetch("http://localhost:8080/jobs", {
-            method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(job)
-          });
-          const saved = await res.json();
-          allJobs.unshift(saved);
-        } catch {
-          job.id = Date.now(); allJobs.unshift(job);
-        }
+      async function postJob(){
+        const job={title:document.getElementById("jobTitle").value.trim(),company:document.getElementById("jobCompany").value.trim(),location:document.getElementById("jobLocation").value.trim(),type:document.getElementById("jobType").value,email:document.getElementById("jobEmail").value.trim(),skills:document.getElementById("jobSkills").value.trim(),description:document.getElementById("jobDesc").value.trim(),postedBy:username||"Alumni"};
+        if(!job.title||!job.company||!job.email){showToast("Please fill Title, Company and Email","warning");return;}
+        try{const res=await fetch("http://localhost:8080/jobs",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(job)});const saved=await res.json();allJobs.unshift(saved);}
+        catch{job.id=Date.now();allJobs.unshift(job);}
         renderJobs(allJobs);
-        ["jobTitle","jobCompany","jobLocation","jobEmail","jobSkills","jobDesc"].forEach(id => document.getElementById(id).value = "");
-        alert("Job posted successfully!");
+        ["jobTitle","jobCompany","jobLocation","jobEmail","jobSkills","jobDesc"].forEach(id=>document.getElementById(id).value="");
+        showToast("Job posted successfully! 🎉","success");
       }
 
-      async function deleteJob(id) {
-        if (!confirm("Delete this job?")) return;
-        try { await fetch(`http://localhost:8080/jobs/${id}`, { method:"DELETE" }); } catch {}
-        allJobs = allJobs.filter(j => j.id !== id);
-        renderJobs(allJobs);
+      async function deleteJob(id){if(!confirm("Delete this job?"))return;try{await fetch(`http://localhost:8080/jobs/${id}`,{method:"DELETE"});}catch{}allJobs=allJobs.filter(j=>j.id!==id);renderJobs(allJobs);showToast("Job deleted","info");}
+
+          // PROFILE
+      let userProfile=JSON.parse(localStorage.getItem("userProfile")||"{}");
+      function getInitials(name){return(name||"?").split(" ").map(n=>n[0]).join("").toUpperCase().slice(0,2);}
+
+      function renderProfile(){
+        if(!userProfile.name)userProfile.name=username||"Alumni";
+        userProfile.role=role;
+        document.getElementById("profileAvatar").innerText=getInitials(userProfile.name);
+        document.getElementById("profileName").innerText=userProfile.name||"—";
+        document.getElementById("profileRole").innerText=userProfile.role||"USER";
+        document.getElementById("profileCompany").innerText=userProfile.company||"—";
+        document.getElementById("profileLocation").innerText=userProfile.location||"—";
+        document.getElementById("profileBatch").innerText=userProfile.batch?`Batch ${userProfile.batch}`:"—";
+        document.getElementById("profileDept").innerText=userProfile.department||"—";
+        document.getElementById("infoUsername").innerText=username||"—";
+        document.getElementById("infoRole").innerText=role||"—";
+        document.getElementById("infoDept").innerText=userProfile.department||"—";
+        document.getElementById("infoBatch").innerText=userProfile.batch||"—";
+        document.getElementById("infoCompany").innerText=userProfile.company||"—";
+        document.getElementById("infoLocation").innerText=userProfile.location||"—";
+        document.getElementById("infoBio").innerText=userProfile.bio||"—";
+        const li=document.getElementById("infoLinkedIn");
+        li.innerHTML=userProfile.linkedin?`<a href="${userProfile.linkedin}" target="_blank" style="color:#74b9ff;">View ↗</a>`:"—";
+        const connections=JSON.parse(localStorage.getItem("connections")||"[]");
+        const grid=document.getElementById("connectionsGrid");
+        document.getElementById("connCount").innerText=`(${connections.length})`;
+        grid.innerHTML=connections.length===0?`<p style="opacity:0.6;font-size:0.88rem;">No connections yet. Connect from Discover!</p>`:connections.map(c=>`<div class="conn-card"><div class="conn-avatar">${getInitials(c)}</div><div>${c}</div></div>`).join("");
       }
 
-      // ════════════════════════════════
-      // PROFILE
-      // ════════════════════════════════
-      let userProfile = JSON.parse(localStorage.getItem("userProfile") || "{}");
-
-      function getInitials(name) {
-        return (name||"?").split(" ").map(n=>n[0]).join("").toUpperCase().slice(0,2);
+      function toggleProfileEdit(){
+        const f=document.getElementById("profileEditForm");
+        f.style.display=f.style.display==="none"?"block":"none";
+        document.getElementById("editName").value=userProfile.name||"";
+        document.getElementById("editBatch").value=userProfile.batch||"";
+        document.getElementById("editCompany").value=userProfile.company||"";
+        document.getElementById("editLocation").value=userProfile.location||"";
+        document.getElementById("editLinkedIn").value=userProfile.linkedin||"";
+        document.getElementById("editBio").value=userProfile.bio||"";
+        if(userProfile.department)document.getElementById("editDept").value=userProfile.department;
       }
 
-      function renderProfile() {
-        if (!userProfile.name) userProfile.name = username || "Alumni";
-        userProfile.role = role;
-
-        document.getElementById("profileAvatar").innerText = getInitials(userProfile.name);
-        document.getElementById("profileName").innerText = userProfile.name || "—";
-        document.getElementById("profileRole").innerText = userProfile.role || "USER";
-        document.getElementById("profileCompany").innerText = userProfile.company || "—";
-        document.getElementById("profileLocation").innerText = userProfile.location || "—";
-        document.getElementById("profileBatch").innerText = userProfile.batch ? `Batch ${userProfile.batch}` : "—";
-        document.getElementById("profileDept").innerText = userProfile.department || "—";
-
-        document.getElementById("infoUsername").innerText = username || "—";
-        document.getElementById("infoRole").innerText = role || "—";
-        document.getElementById("infoDept").innerText = userProfile.department || "—";
-        document.getElementById("infoBatch").innerText = userProfile.batch || "—";
-        document.getElementById("infoCompany").innerText = userProfile.company || "—";
-        document.getElementById("infoLocation").innerText = userProfile.location || "—";
-        document.getElementById("infoBio").innerText = userProfile.bio || "—";
-        const li = document.getElementById("infoLinkedIn");
-        li.innerHTML = userProfile.linkedin ? `<a href="${userProfile.linkedin}" target="_blank" style="color:#74b9ff;">View ↗</a>` : "—";
-
-        const connections = JSON.parse(localStorage.getItem("connections") || "[]");
-        const grid = document.getElementById("connectionsGrid");
-        document.getElementById("connCount").innerText = `(${connections.length})`;
-        grid.innerHTML = connections.length === 0
-          ? `<p style="opacity:0.6;font-size:0.88rem;">No connections yet.</p>`
-          : connections.map(c => `<div class="conn-card"><div class="conn-avatar">${getInitials(c)}</div><div>${c}</div></div>`).join("");
-      }
-
-      function toggleProfileEdit() {
-        const f = document.getElementById("profileEditForm");
-        f.style.display = f.style.display === "none" ? "block" : "none";
-        document.getElementById("editName").value = userProfile.name || "";
-        document.getElementById("editBatch").value = userProfile.batch || "";
-        document.getElementById("editCompany").value = userProfile.company || "";
-        document.getElementById("editLocation").value = userProfile.location || "";
-        document.getElementById("editLinkedIn").value = userProfile.linkedin || "";
-        document.getElementById("editBio").value = userProfile.bio || "";
-        if (userProfile.department) document.getElementById("editDept").value = userProfile.department;
-      }
-
-      function saveProfile() {
-        userProfile.name = document.getElementById("editName").value.trim() || userProfile.name;
-        userProfile.batch = document.getElementById("editBatch").value.trim();
-        userProfile.department = document.getElementById("editDept").value;
-        userProfile.company = document.getElementById("editCompany").value.trim();
-        userProfile.location = document.getElementById("editLocation").value.trim();
-        userProfile.linkedin = document.getElementById("editLinkedIn").value.trim();
-        userProfile.bio = document.getElementById("editBio").value.trim();
-        localStorage.setItem("userProfile", JSON.stringify(userProfile));
-        document.getElementById("profileEditForm").style.display = "none";
+      function saveProfile(){
+        userProfile.name=document.getElementById("editName").value.trim()||userProfile.name;
+        userProfile.batch=document.getElementById("editBatch").value.trim();
+        userProfile.department=document.getElementById("editDept").value;
+        userProfile.company=document.getElementById("editCompany").value.trim();
+        userProfile.location=document.getElementById("editLocation").value.trim();
+        userProfile.linkedin=document.getElementById("editLinkedIn").value.trim();
+        userProfile.bio=document.getElementById("editBio").value.trim();
+        localStorage.setItem("userProfile",JSON.stringify(userProfile));
+        document.getElementById("profileEditForm").style.display="none";
         renderProfile();
-        alert("Profile saved!");
+        showToast("Profile saved successfully! ✅","success");
       }
 
-      // ════════════════════════════════
-      // ADMIN DASHBOARD
-      // ════════════════════════════════
-      let dashAlumni = [];
-      let chartsBuilt = false;
+          // ADMIN DASHBOARD
+      let dashAlumni=[];
 
-      async function loadDashboard() {
-        try {
-          const [aRes, uRes] = await Promise.all([
-            fetch("http://localhost:8080/alumni"),
-            fetch("http://localhost:8080/auth/users/count")
-          ]);
-          dashAlumni = await aRes.json();
-          const uCount = await uRes.json();
-
-          document.getElementById("dashTotalAlumni").innerText = dashAlumni.length;
-          document.getElementById("dashTotalUsers").innerText = uCount;
-
-          const batches = dashAlumni.map(a=>Number(a.batch)).filter(Boolean);
-          document.getElementById("dashLatestBatch").innerText = batches.length ? Math.max(...batches) : "—";
-
-          try {
-            const jRes = await fetch("http://localhost:8080/jobs");
-            const jobs = await jRes.json();
-            document.getElementById("dashTotalJobs").innerText = jobs.length;
-          } catch { document.getElementById("dashTotalJobs").innerText = "N/A"; }
-
-          if (!chartsBuilt) { buildCharts(); chartsBuilt = true; }
+      async function loadDashboard(){
+        try{
+          const[aRes,uRes]=await Promise.all([fetch("http://localhost:8080/alumni"),fetch("http://localhost:8080/auth/users/count")]);
+          dashAlumni=await aRes.json();const uCount=await uRes.json();
+          document.getElementById("dashTotalAlumni").innerText=dashAlumni.length;
+          document.getElementById("dashTotalUsers").innerText=uCount;
+          try{const jRes=await fetch("http://localhost:8080/jobs");const jobs=await jRes.json();document.getElementById("dashTotalJobs").innerText=jobs.length;}catch{document.getElementById("dashTotalJobs").innerText="N/A";}
+          try{const rRes=await fetch("http://localhost:8080/registrations");const regs=await rRes.json();document.getElementById("dashPending").innerText=regs.filter(r=>r.status==="PENDING").length;}catch{document.getElementById("dashPending").innerText="N/A";}
+          if(!chartsBuilt){buildCharts();chartsBuilt=true;}
           buildDashTable();
-        } catch (e) { console.error("Dashboard error:", e); }
+        }catch{showToast("Could not load dashboard","error");}
       }
 
-      function countBy(arr, key) {
-        return arr.reduce((acc,item) => { const v=item[key]||"Unknown"; acc[v]=(acc[v]||0)+1; return acc; }, {});
-      }
-      function topN(obj, n) { return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n); }
+      function countBy(arr,key){return arr.reduce((acc,item)=>{const v=item[key]||"Unknown";acc[v]=(acc[v]||0)+1;return acc;},{});}
+      function topN(obj,n){return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);}
+      const COLORS=["rgba(255,107,107,0.8)","rgba(78,205,196,0.8)","rgba(253,203,110,0.8)","rgba(162,155,254,0.8)","rgba(253,121,168,0.8)","rgba(99,205,132,0.8)","rgba(116,185,255,0.8)","rgba(250,177,160,0.8)"];
 
-      const COLORS = ["rgba(255,107,107,0.8)","rgba(78,205,196,0.8)","rgba(253,203,110,0.8)","rgba(162,155,254,0.8)","rgba(253,121,168,0.8)","rgba(99,205,132,0.8)","rgba(116,185,255,0.8)","rgba(250,177,160,0.8)"];
+      function makeChart(id,type,labels,data){const ctx=document.getElementById(id).getContext("2d");new Chart(ctx,{type,data:{labels,datasets:[{data,backgroundColor:COLORS,borderColor:COLORS.map(c=>c.replace("0.8","1")),borderWidth:1,borderRadius:type==="bar"?6:0}]},options:{plugins:{legend:{labels:{color:"white",font:{size:10}}}},scales:type==="bar"?{x:{ticks:{color:"rgba(255,255,255,0.65)"},grid:{color:"rgba(255,255,255,0.08)"}},y:{ticks:{color:"rgba(255,255,255,0.65)"},grid:{color:"rgba(255,255,255,0.08)"}}} : {},responsive:true,maintainAspectRatio:true}});}
 
-      function makeChart(id, type, labels, data) {
-        const ctx = document.getElementById(id).getContext("2d");
-        new Chart(ctx, {
-          type,
-          data: { labels, datasets: [{ data, backgroundColor: COLORS, borderColor: COLORS.map(c=>c.replace("0.8","1")), borderWidth:1, borderRadius: type==="bar"?6:0 }] },
-          options: {
-            plugins: { legend: { labels: { color:"white", font:{size:10} } } },
-            scales: type==="bar" ? {
-              x:{ ticks:{color:"rgba(255,255,255,0.65)"}, grid:{color:"rgba(255,255,255,0.08)"} },
-              y:{ ticks:{color:"rgba(255,255,255,0.65)"}, grid:{color:"rgba(255,255,255,0.08)"} }
-            } : {},
-            responsive:true, maintainAspectRatio:true,
-          }
-        });
+      function buildCharts(){
+        const batchData=countBy(dashAlumni,"batch");const sorted=Object.entries(batchData).sort((a,b)=>a[0]-b[0]);
+        makeChart("batchChart","bar",sorted.map(e=>e[0]),sorted.map(e=>e[1]));
+        const dept=topN(countBy(dashAlumni,"department"),5);makeChart("deptChart","doughnut",dept.map(e=>e[0]),dept.map(e=>e[1]));
+        const loc=topN(countBy(dashAlumni,"location"),6);makeChart("locationChart","bar",loc.map(e=>e[0]),loc.map(e=>e[1]));
+        const comp=topN(countBy(dashAlumni,"company"),6);makeChart("companyChart","doughnut",comp.map(e=>e[0]),comp.map(e=>e[1]));
       }
 
-      function buildCharts() {
-        const batchData = countBy(dashAlumni, "batch");
-        const sorted = Object.entries(batchData).sort((a,b)=>a[0]-b[0]);
-        makeChart("batchChart","bar", sorted.map(e=>e[0]), sorted.map(e=>e[1]));
-
-        const dept = topN(countBy(dashAlumni,"department"),5);
-        makeChart("deptChart","doughnut", dept.map(e=>e[0]), dept.map(e=>e[1]));
-
-        const loc = topN(countBy(dashAlumni,"location"),6);
-        makeChart("locationChart","bar", loc.map(e=>e[0]), loc.map(e=>e[1]));
-
-        const comp = topN(countBy(dashAlumni,"company"),6);
-        makeChart("companyChart","doughnut", comp.map(e=>e[0]), comp.map(e=>e[1]));
+      function buildDashTable(){
+        const tbody=document.getElementById("dashTableBody");const recent=[...dashAlumni].reverse().slice(0,10);
+        if(!recent.length){tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;opacity:0.5;">No data</td></tr>`;return;}
+        tbody.innerHTML=recent.map(a=>`<tr><td>${a.name||"—"}</td><td>${a.batch||"—"}</td><td>${a.department||"—"}</td><td>${a.company||"—"}</td><td>${a.location||"—"}</td><td><button class="btn btn-danger btn-sm" onclick="deleteDashAlumni(${a.id})">🗑</button></td></tr>`).join("");
       }
 
-      function buildDashTable() {
-        const tbody = document.getElementById("dashTableBody");
-        const recent = [...dashAlumni].reverse().slice(0,10);
-        if (!recent.length) { tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;opacity:0.5;">No data</td></tr>`; return; }
-        tbody.innerHTML = recent.map(a=>`
-          <tr>
-            <td>${a.name||"—"}</td><td>${a.batch||"—"}</td>
-            <td>${a.department||"—"}</td><td>${a.company||"—"}</td><td>${a.location||"—"}</td>
-            <td><button class="btn btn-danger btn-sm" onclick="deleteDashAlumni(${a.id})">🗑</button></td>
-          </tr>`).join("");
+      async function deleteDashAlumni(id){if(!confirm("Delete?"))return;try{await fetch(`http://localhost:8080/alumni/${id}`,{method:"DELETE"});}catch{}dashAlumni=dashAlumni.filter(a=>a.id!==id);alumniData=alumniData.filter(a=>a.id!==id);document.getElementById("dashTotalAlumni").innerText=dashAlumni.length;buildDashTable();showToast("Alumni deleted","info");}
+
+      function exportCSV(){const headers=["Name","Batch","Department","Company","Location"];const rows=dashAlumni.map(a=>[a.name,a.batch,a.department,a.company,a.location]);const csv=[headers,...rows].map(r=>r.join(",")).join("\n");const blob=new Blob([csv],{type:"text/csv"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="alumni.csv";a.click();showToast("CSV exported!","success");}
+
+      // STATS & INIT
+      async function loadStats(){
+        try{
+          const aRes=await fetch("http://localhost:8080/alumni/count");document.getElementById("totalAlumni").innerText=await aRes.json();
+          const uRes=await fetch("http://localhost:8080/auth/users/count");document.getElementById("totalUsers").innerText=await uRes.json();
+        }catch(e){console.error("Stats error:",e);}
       }
 
-      async function deleteDashAlumni(id) {
-        if (!confirm("Delete this alumni?")) return;
-        try { await fetch(`http://localhost:8080/alumni/${id}`, {method:"DELETE"}); } catch {}
-        dashAlumni = dashAlumni.filter(a=>a.id!==id);
-        alumniData = alumniData.filter(a=>a.id!==id);
-        document.getElementById("dashTotalAlumni").innerText = dashAlumni.length;
-        buildDashTable();
-      }
+      function logout(){localStorage.removeItem("role");localStorage.removeItem("username");showToast("Logged out successfully","info");setTimeout(()=>window.location.href="login.html",1000);}
 
-      function exportCSV() {
-        const headers = ["Name","Batch","Department","Company","Location"];
-        const rows = dashAlumni.map(a=>[a.name,a.batch,a.department,a.company,a.location]);
-        const csv = [headers,...rows].map(r=>r.join(",")).join("\n");
-        const blob = new Blob([csv],{type:"text/csv"});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href=url; a.download="alumni.csv"; a.click();
-      }
-
-      // ════════════════════════════════
-      // STATS & LOGOUT
-      // ════════════════════════════════
-      async function loadStats() {
-        try {
-          const aRes = await fetch("http://localhost:8080/alumni/count");
-          document.getElementById("totalAlumni").innerText = await aRes.json();
-          const uRes = await fetch("http://localhost:8080/auth/users/count");
-          document.getElementById("totalUsers").innerText = await uRes.json();
-        } catch (e) { console.error("Stats error:", e); }
-      }
-
-      function logout() {
-        localStorage.removeItem("role");
-        localStorage.removeItem("username");
-        alert("Logged out successfully");
-        window.location.href = "login.html";
-      }
-
-      window.onload = function () {
-        loadAlumni();
-        loadStats();
-      };
+      window.onload=function(){loadAlumni();loadStats();};
     </script>
   </body>
 </html>
