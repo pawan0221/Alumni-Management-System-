@@ -8,27 +8,22 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/users/count")
-public long getTotalUsers() {
-    return userRepository.count();
-}
+    public long getTotalUsers() {
+        return userRepository.count();
+    }
 
     @PostMapping("/login")
     public User login(@RequestBody User user) {
-
-
-        Optional<User> existingUser =
-            userRepository.findByUsernameAndPassword(
-                user.getUsername(),
-                user.getPassword()
-            );
-
-        return existingUser.orElse(null);
+        Optional<User> found = userRepository.findByUsernameAndPassword(
+            user.getUsername(), user.getPassword()
+        );
+        return found.orElse(null);
     }
 }
