@@ -554,7 +554,7 @@
 
       async function loadAlumni() {
         try {
-          const res = await fetch("alumni-management-system-production-5cf9.up.railway.app/alumni");
+          const res = await fetch("https://alumni-management-system-production-5cf9.up.railway.app/alumni");
           alumniData = await res.json();
           renderAlumni(alumniData);
         } catch { showToast("Could not load alumni data","error"); }
@@ -601,7 +601,7 @@
 
       async function deleteAlumni(id) {
         if(!confirm("Delete this alumni?"))return;
-        try{await fetch(`alumni-management-system-production-5cf9.up.railway.app/alumni/${id}`,{method:"DELETE"});alumniData=alumniData.filter(a=>a.id!==id);renderAlumni(alumniData);showToast("Alumni deleted","success");}
+        try{await fetch(`https://alumni-management-system-production-5cf9.up.railway.app/alumni/${id}`,{method:"DELETE"});alumniData=alumniData.filter(a=>a.id!==id);renderAlumni(alumniData);showToast("Alumni deleted","success");}
         catch{showToast("Error deleting alumni","error");}
       }
 
@@ -609,7 +609,7 @@
         const alumni={name:document.getElementById("newName").value,batch:document.getElementById("newBatch").value,department:document.getElementById("newDepartment").value,company:document.getElementById("newCompany").value,location:document.getElementById("newLocation").value};
         if(!alumni.name||!alumni.batch){showToast("Name and Batch are required","warning");return;}
         try{
-          await fetch("alumni-management-system-production-5cf9.up.railway.app/alumni",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(alumni)});
+          await fetch("https://alumni-management-system-production-5cf9.up.railway.app/alumni",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(alumni)});
           showToast("Alumni added successfully!","success");
           ["newName","newBatch","newDepartment","newCompany","newLocation"].forEach(id=>document.getElementById(id).value="");
           loadAlumni();
@@ -621,7 +621,7 @@
         const reg={name:document.getElementById("regName").value.trim(),batch:document.getElementById("regBatch").value.trim(),department:document.getElementById("regDept").value,company:document.getElementById("regCompany").value.trim(),location:document.getElementById("regLocation").value.trim(),email:document.getElementById("regEmail").value.trim(),bio:document.getElementById("regBio").value.trim(),status:"PENDING"};
         if(!reg.name||!reg.batch||!reg.department||!reg.email){showToast("Please fill Name, Batch, Department and Email","warning");return;}
         try{
-          await fetch("https://alumni-management-system-production-5cf9.up.railway.app",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(reg)});
+          await fetch("https://https://alumni-management-system-production-5cf9.up.railway.app",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(reg)});
           showToast("Registration submitted! Waiting for admin approval ✅","success");
           ["regName","regBatch","regCompany","regLocation","regEmail","regBio"].forEach(id=>document.getElementById(id).value="");
           document.getElementById("regDept").value="";
@@ -669,7 +669,7 @@
       let allJobs=[];
 
       async function loadJobs() {
-        try{const res=await fetch("alumni-management-system-production-5cf9.up.railway.app/jobs");allJobs=await res.json();renderJobs(allJobs);}
+        try{const res=await fetch("https://alumni-management-system-production-5cf9.up.railway.app/jobs");allJobs=await res.json();renderJobs(allJobs);}
         catch{allJobs=[{id:1,title:"Frontend Developer",company:"TechCorp",location:"Bangalore",type:"Full-Time",description:"Build modern web apps using React and TypeScript.",skills:"React,TypeScript,CSS",email:"hr@techcorp.com",postedBy:"Rahul M"},{id:2,title:"Data Analyst Intern",company:"DataHub",location:"Remote",type:"Internship",description:"Analyze datasets and build dashboards.",skills:"Python,SQL,Tableau",email:"hr@datahub.com",postedBy:"Priya S"}];renderJobs(allJobs);}
       }
 
@@ -686,14 +686,14 @@
       async function postJob(){
         const job={title:document.getElementById("jobTitle").value.trim(),company:document.getElementById("jobCompany").value.trim(),location:document.getElementById("jobLocation").value.trim(),type:document.getElementById("jobType").value,email:document.getElementById("jobEmail").value.trim(),skills:document.getElementById("jobSkills").value.trim(),description:document.getElementById("jobDesc").value.trim(),postedBy:username||"Alumni"};
         if(!job.title||!job.company||!job.email){showToast("Please fill Title, Company and Email","warning");return;}
-        try{const res=await fetch("alumni-management-system-production-5cf9.up.railway.app/jobs",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(job)});const saved=await res.json();allJobs.unshift(saved);}
+        try{const res=await fetch("https://alumni-management-system-production-5cf9.up.railway.app/jobs",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(job)});const saved=await res.json();allJobs.unshift(saved);}
         catch{job.id=Date.now();allJobs.unshift(job);}
         renderJobs(allJobs);
         ["jobTitle","jobCompany","jobLocation","jobEmail","jobSkills","jobDesc"].forEach(id=>document.getElementById(id).value="");
         showToast("Job posted successfully! 🎉","success");
       }
 
-      async function deleteJob(id){if(!confirm("Delete this job?"))return;try{await fetch(`alumni-management-system-production-5cf9.up.railway.app/jobs/${id}`,{method:"DELETE"});}catch{}allJobs=allJobs.filter(j=>j.id!==id);renderJobs(allJobs);showToast("Job deleted","info");}
+      async function deleteJob(id){if(!confirm("Delete this job?"))return;try{await fetch(`https://alumni-management-system-production-5cf9.up.railway.app/jobs/${id}`,{method:"DELETE"});}catch{}allJobs=allJobs.filter(j=>j.id!==id);renderJobs(allJobs);showToast("Job deleted","info");}
 
           // PROFILE
       let userProfile=JSON.parse(localStorage.getItem("userProfile")||"{}");
@@ -755,11 +755,11 @@
 
       async function loadDashboard(){
         try{
-          const[aRes,uRes]=await Promise.all([fetch("alumni-management-system-production-5cf9.up.railway.app/alumni"),fetch("alumni-management-system-production-5cf9.up.railway.app/auth/users/count")]);
+          const[aRes,uRes]=await Promise.all([fetch("https://alumni-management-system-production-5cf9.up.railway.app/alumni"),fetch("https://alumni-management-system-production-5cf9.up.railway.app/auth/users/count")]);
           dashAlumni=await aRes.json();const uCount=await uRes.json();
           document.getElementById("dashTotalAlumni").innerText=dashAlumni.length;
           document.getElementById("dashTotalUsers").innerText=uCount;
-          try{const jRes=await fetch("alumni-management-system-production-5cf9.up.railway.app/jobs");const jobs=await jRes.json();document.getElementById("dashTotalJobs").innerText=jobs.length;}catch{document.getElementById("dashTotalJobs").innerText="N/A";}
+          try{const jRes=await fetch("https://alumni-management-system-production-5cf9.up.railway.app/jobs");const jobs=await jRes.json();document.getElementById("dashTotalJobs").innerText=jobs.length;}catch{document.getElementById("dashTotalJobs").innerText="N/A";}
           try{const rRes=await fetch("https://alumni-management-system-production-5cf9.up.railway.app");const regs=await rRes.json();document.getElementById("dashPending").innerText=regs.filter(r=>r.status==="PENDING").length;}catch{document.getElementById("dashPending").innerText="N/A";}
           if(!chartsBuilt){buildCharts();chartsBuilt=true;}
           buildDashTable();
@@ -786,15 +786,15 @@
         tbody.innerHTML=recent.map(a=>`<tr><td>${a.name||"—"}</td><td>${a.batch||"—"}</td><td>${a.department||"—"}</td><td>${a.company||"—"}</td><td>${a.location||"—"}</td><td><button class="btn btn-danger btn-sm" onclick="deleteDashAlumni(${a.id})">🗑</button></td></tr>`).join("");
       }
 
-      async function deleteDashAlumni(id){if(!confirm("Delete?"))return;try{await fetch(`alumni-management-system-production-5cf9.up.railway.app/alumni/${id}`,{method:"DELETE"});}catch{}dashAlumni=dashAlumni.filter(a=>a.id!==id);alumniData=alumniData.filter(a=>a.id!==id);document.getElementById("dashTotalAlumni").innerText=dashAlumni.length;buildDashTable();showToast("Alumni deleted","info");}
+      async function deleteDashAlumni(id){if(!confirm("Delete?"))return;try{await fetch(`https://alumni-management-system-production-5cf9.up.railway.app/alumni/${id}`,{method:"DELETE"});}catch{}dashAlumni=dashAlumni.filter(a=>a.id!==id);alumniData=alumniData.filter(a=>a.id!==id);document.getElementById("dashTotalAlumni").innerText=dashAlumni.length;buildDashTable();showToast("Alumni deleted","info");}
 
       function exportCSV(){const headers=["Name","Batch","Department","Company","Location"];const rows=dashAlumni.map(a=>[a.name,a.batch,a.department,a.company,a.location]);const csv=[headers,...rows].map(r=>r.join(",")).join("\n");const blob=new Blob([csv],{type:"text/csv"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="alumni.csv";a.click();showToast("CSV exported!","success");}
 
       // STATS & INIT
       async function loadStats(){
         try{
-          const aRes=await fetch("alumni-management-system-production-5cf9.up.railway.app/alumni/count");document.getElementById("totalAlumni").innerText=await aRes.json();
-          const uRes=await fetch("alumni-management-system-production-5cf9.up.railway.app/auth/users/count");document.getElementById("totalUsers").innerText=await uRes.json();
+          const aRes=await fetch("https://alumni-management-system-production-5cf9.up.railway.app/alumni/count");document.getElementById("totalAlumni").innerText=await aRes.json();
+          const uRes=await fetch("https://alumni-management-system-production-5cf9.up.railway.app/auth/users/count");document.getElementById("totalUsers").innerText=await uRes.json();
         }catch(e){console.error("Stats error:",e);}
       }
 
@@ -804,3 +804,4 @@
     </script>
   </body>
 </html>
+                                                                                 
